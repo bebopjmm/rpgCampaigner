@@ -3,8 +3,9 @@ build/
 .gradle/
 out/
 target/
-.iws
-.ipr
+rpgCampaigner.iws
+rpgCampaigner.ipr
+rpgCampaigner.iml
 .directory
 .settings
 .classpath

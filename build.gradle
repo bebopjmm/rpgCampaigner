@@ -8,6 +8,10 @@ apply plugin: 'propdeps-maven'
 apply plugin: 'propdeps-idea'
 apply plugin: 'propdeps-eclipse'
 
+version = "0.1"
+
+sourceCompatibility = 1.7
+
 buildscript {
   repositories {
     mavenCentral()
@@ -28,14 +32,14 @@ repositories {
 }
 
 dependencies {
-    compile 'org.springframework:spring-core:3.2.3.RELEASE'
-    compile 'org.springframework:spring-webmvc:3.2.3.RELEASE'
+	compile 'org.springframework:spring-core:3.2.4.RELEASE'
+	compile 'org.springframework.data:spring-data-mongodb:1.2.3.RELEASE'
+    compile 'org.springframework:spring-webmvc:3.2.4.RELEASE'
 
     provided 'javax.servlet:javax.servlet-api:3.0.1'
 
     runtime 'com.fasterxml.jackson.core:jackson-core:2.2.2'
     runtime 'com.fasterxml.jackson.core:jackson-databind:2.2.2'
-    runtime 'javax.xml.bind:jaxb-api:2.2.9'
 
     compile 'org.slf4j:slf4j-api:1.7.5'
     runtime 'org.slf4j:slf4j-jdk14:1.7.5'
