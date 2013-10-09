@@ -16,15 +16,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.util.UriComponentsBuilder;
 
 /**
- * The CampaignCommandsController coordinates the interactions between the RESTful commands and the CampaignService.
+ * The CampaignController coordinates the interactions between the RESTful commands and the CampaignService.
  *
  * @author John McCormick
  * Date: 10/4/13 Time: 09:06
  */
 @Controller
 @RequestMapping("/rpgCampaigner/campaigns")
-public class CampaignCommandsController {
-    private static Logger LOG = LoggerFactory.getLogger(CampaignCommandsController.class);
+public class CampaignController {
+    private static Logger LOG = LoggerFactory.getLogger(CampaignController.class);
     public static final String BASE_PATH = "/rpgCampaigner/campaigns";
 
     @Autowired

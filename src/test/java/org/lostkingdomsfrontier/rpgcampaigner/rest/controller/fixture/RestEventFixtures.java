@@ -2,6 +2,7 @@ package org.lostkingdomsfrontier.rpgcampaigner.rest.controller.fixture;
 
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.CampaignCreatedEvent;
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.PlayerCreatedEvent;
+import org.lostkingdomsfrontier.rpgcampaigner.core.events.PlayerDetails;
 
 /**
  * @author John McCormick
@@ -15,5 +16,13 @@ public class RestEventFixtures {
 
     public static PlayerCreatedEvent playerCreated(String username) {
         return new PlayerCreatedEvent(RestDataFixture.customPlayerDetails(username));
+    }
+
+    public static PlayerDetails playerNotFound() {
+        return null;
+    }
+
+    public static PlayerDetails playerFound(String username) {
+        return RestDataFixture.customPlayerDetails(username);
     }
 }

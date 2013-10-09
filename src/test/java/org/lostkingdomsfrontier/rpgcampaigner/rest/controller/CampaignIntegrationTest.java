@@ -13,8 +13,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.UUID;
-
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -30,7 +28,7 @@ public class CampaignIntegrationTest {
     MockMvc mockMvc;
 
     @InjectMocks
-    CampaignCommandsController controller;
+    CampaignController controller;
 
     @Mock
     CampaignService campaignService;
