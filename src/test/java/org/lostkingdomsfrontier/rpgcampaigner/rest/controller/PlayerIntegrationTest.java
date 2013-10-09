@@ -3,7 +3,8 @@ package org.lostkingdomsfrontier.rpgcampaigner.rest.controller;
 import org.junit.Before;
 import org.junit.Test;
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.CampaignDetails;
-import org.lostkingdomsfrontier.rpgcampaigner.core.services.CampaignService;
+import org.lostkingdomsfrontier.rpgcampaigner.core.events.PlayerDetails;
+import org.lostkingdomsfrontier.rpgcampaigner.core.services.PlayerService;
 import org.lostkingdomsfrontier.rpgcampaigner.rest.controller.fixture.RestDataFixture;
 import org.lostkingdomsfrontier.rpgcampaigner.rest.controller.fixture.RestEventFixtures;
 import org.mockito.InjectMocks;
@@ -13,27 +14,25 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.UUID;
-
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 /**
  * @author John McCormick
- * Date: 10/5/13 Time: 15:00
+ * Date: 10/8/13 Time: 17:54
  */
-public class CampaignIntegrationTest {
+public class PlayerIntegrationTest {
     MockMvc mockMvc;
 
     @InjectMocks
-    CampaignCommandsController controller;
+    PlayerCommandsController controller;
 
     @Mock
-    CampaignService campaignService;
+    PlayerService playerService;
 
     @Before
     public void setup() {
@@ -42,16 +41,16 @@ public class CampaignIntegrationTest {
         this.mockMvc = standaloneSetup(controller)
                 .setMessageConverters(new MappingJackson2HttpMessageConverter()).build();
 
-        when(campaignService.createCampaign(any(CampaignDetails.class))).thenReturn(
-                RestEventFixtures.campaignCreated(RestDataFixture.STANDARD_CAMPAIGN_SLUG));
+        when(playerService.createPlayer(any(PlayerDetails.class))).thenReturn(
+                RestEventFixtures.playerCreated(RestDataFixture.STANDARD_PLAYER_USERNAME));
     }
 
     @Test
     public void thatCreateCampaignUsesHttpCreated() throws Exception {
 
         this.mockMvc.perform(
-                post("/rpgCampaigner/campaigns")
-                        .content(RestDataFixture.standardCampaignJSON())
+                post("/rpgCampaigner/players")
+                        .content(RestDataFixture.standardPlayerJSON())
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())

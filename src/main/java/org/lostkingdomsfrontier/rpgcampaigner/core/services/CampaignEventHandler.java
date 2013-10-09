@@ -8,7 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author: bebopjmm Date: 10/6/13 Time: 07:49
+ * @author John McCormick
+ * Date: 10/6/13 Time: 07:49
  */
 public class CampaignEventHandler implements CampaignService {
     private static Logger LOG = LoggerFactory.getLogger(CampaignEventHandler.class);

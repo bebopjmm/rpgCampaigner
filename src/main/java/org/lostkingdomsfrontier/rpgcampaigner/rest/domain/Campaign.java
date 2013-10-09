@@ -5,7 +5,11 @@ import org.lostkingdomsfrontier.rpgcampaigner.core.events.CampaignDetails;
 import java.util.UUID;
 
 /**
- * @author John McCormick Date: 10/3/13 Time: 14:37
+ * The Campaign domain object represents a connected series of Adventures conducted of a series of GamingSessions by a
+ * group of Players under the direction of a gameMaster.
+ *
+ * @author John McCormick
+ * Date: 10/3/13 Time: 14:37
  */
 public class Campaign {
     private String slug;

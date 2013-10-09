@@ -16,7 +16,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.util.UriComponentsBuilder;
 
 /**
- * @author: bebopjmm Date: 10/4/13 Time: 09:06
+ * The CampaignCommandsController coordinates the interactions between the RESTful commands and the CampaignService.
+ *
+ * @author John McCormick
+ * Date: 10/4/13 Time: 09:06
  */
 @Controller
 @RequestMapping("/rpgCampaigner/campaigns")
@@ -28,8 +31,8 @@ public class CampaignCommandsController {
     private CampaignService campaignService;
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Campaign> createOrder(@RequestBody Campaign campaign, UriComponentsBuilder builder) {
-        LOG.info("createOrder for " + campaign.getName() + "[" + campaign.getSlug() + "]");
+    public ResponseEntity<Campaign> createCampaign(@RequestBody Campaign campaign, UriComponentsBuilder builder) {
+        LOG.info("createCampaign for " + campaign.getName() + "[" + campaign.getSlug() + "]");
 
         CampaignCreatedEvent campaignCreated = campaignService.createCampaign(Campaign.toCampaignDetails(campaign));
         LOG.info("campaignCreated: " + campaignCreated.getDetails().getName() + "[" + campaignCreated.getDetails().getSlug() + "]");
