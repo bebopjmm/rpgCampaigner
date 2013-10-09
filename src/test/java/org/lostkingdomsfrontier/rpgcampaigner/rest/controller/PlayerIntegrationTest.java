@@ -46,7 +46,7 @@ public class PlayerIntegrationTest {
     }
 
     @Test
-    public void thatCreateCampaignUsesHttpCreated() throws Exception {
+    public void thatCreatePlayerUsesHttpCreated() throws Exception {
 
         this.mockMvc.perform(
                 post("/rpgCampaigner/players")

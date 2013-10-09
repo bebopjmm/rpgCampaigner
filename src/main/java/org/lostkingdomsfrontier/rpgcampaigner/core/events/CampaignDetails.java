@@ -21,4 +21,5 @@ public class CampaignDetails {
     public String getSlug() {
         return slug;
     }
+
 }

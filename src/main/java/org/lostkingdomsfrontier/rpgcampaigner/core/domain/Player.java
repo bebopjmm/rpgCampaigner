@@ -21,17 +21,17 @@ public class Player {
     @Id
     private String key;
     @Indexed(unique = true)
-    private String userName;
+    private String username;
     @DBRef
     private Set<Campaign> campaigns;
 
     public static PlayerDetails toPlayerDetails(Player player) {
-        return new PlayerDetails(player.getUserName());
+        return new PlayerDetails(player.getUsername());
     }
 
     public static Player fromPlayerDetails(PlayerDetails details) {
         Player result = new Player();
-        result.setUserName(details.getUsername());
+        result.setUsername(details.getUsername());
         return result;
     }
 
@@ -43,12 +43,12 @@ public class Player {
         this.key = key;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public Set<Campaign> getCampaigns() {
