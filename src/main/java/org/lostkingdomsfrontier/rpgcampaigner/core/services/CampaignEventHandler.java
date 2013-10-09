@@ -1,9 +1,12 @@
 package org.lostkingdomsfrontier.rpgcampaigner.core.services;
 
 import org.lostkingdomsfrontier.rpgcampaigner.core.dao.CampaignRepository;
+import org.lostkingdomsfrontier.rpgcampaigner.core.dao.PlayerRepository;
 import org.lostkingdomsfrontier.rpgcampaigner.core.domain.Campaign;
+import org.lostkingdomsfrontier.rpgcampaigner.core.domain.Player;
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.CampaignCreatedEvent;
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.CampaignDetails;
+import org.lostkingdomsfrontier.rpgcampaigner.core.events.CreateCampaignEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,14 +19,22 @@ public class CampaignEventHandler implements CampaignService {
 
     private final CampaignRepository campaignRepository;
 
-    public CampaignEventHandler(final CampaignRepository repository) {
-        this.campaignRepository = repository;
+    private final PlayerRepository playerRepository;
+
+    public CampaignEventHandler(CampaignRepository campaignRepository,
+                                PlayerRepository playerRepository) {
+        this.campaignRepository = campaignRepository;
+        this.playerRepository = playerRepository;
     }
 
     @Override
-    public CampaignCreatedEvent createCampaign(CampaignDetails details) {
+    public CampaignCreatedEvent createCampaign(CreateCampaignEvent event) {
         LOG.info("createCampaign");
-        Campaign campaign = Campaign.fromCampaignDetails(details);
+        Player gameMaster = playerRepository.findByUsername(event.getGameMaster().getUsername());
+        Campaign campaign = new Campaign();
+        campaign.setName(event.getName());
+        campaign.setSlug(event.getSlug());
+        campaign.setGameMaster(gameMaster);
         campaign = campaignRepository.save(campaign);
         return new CampaignCreatedEvent(Campaign.toCampaignDetails(campaign));
     }

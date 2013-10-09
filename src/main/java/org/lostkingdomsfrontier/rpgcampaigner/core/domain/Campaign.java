@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Set;
 
 /**
- * The Campaign domain object represents a connected series of Adventures conducted of a series of GamingSessions by a
+ * The CampaignResource domain object represents a connected series of Adventures conducted of a series of GamingSessions by a
  * group of Players under the direction of a gameMaster.
  *
  * @author John McCormick
@@ -29,13 +29,6 @@ public class Campaign {
 
     public static CampaignDetails toCampaignDetails(Campaign campaign) {
         return new CampaignDetails(campaign.getName(), campaign.getSlug());
-    }
-
-    public static Campaign fromCampaignDetails(CampaignDetails details) {
-        Campaign result = new Campaign();
-        result.setName(details.getName());
-        result.setSlug(details.getSlug());
-        return result;
     }
 
     public String getKey() {

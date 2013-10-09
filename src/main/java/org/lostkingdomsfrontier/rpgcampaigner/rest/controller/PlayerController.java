@@ -3,7 +3,7 @@ package org.lostkingdomsfrontier.rpgcampaigner.rest.controller;
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.PlayerCreatedEvent;
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.PlayerDetails;
 import org.lostkingdomsfrontier.rpgcampaigner.core.services.PlayerService;
-import org.lostkingdomsfrontier.rpgcampaigner.rest.domain.Player;
+import org.lostkingdomsfrontier.rpgcampaigner.rest.domain.PlayerResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,40 +32,40 @@ public class PlayerController {
     private PlayerService playerService;
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Player> createPlayer(@RequestBody Player player, UriComponentsBuilder builder) {
-        LOG.info("createPlayer for " + player.getUserName());
+    public ResponseEntity<PlayerResource> createPlayer(@RequestBody PlayerResource playerResource, UriComponentsBuilder builder) {
+        LOG.info("createPlayer for " + playerResource.getUserName());
 
-        PlayerCreatedEvent playerCreated = playerService.createPlayer(Player.toPlayerDetails(player));
+        PlayerCreatedEvent playerCreated = playerService.createPlayer(PlayerResource.toPlayerDetails(playerResource));
         LOG.info("playerCreated: " + playerCreated.getDetails().getUsername());
-        Player newPlayer = Player.fromPlayerDetails(playerCreated.getDetails());
+        PlayerResource newPlayerResource = PlayerResource.fromPlayerDetails(playerCreated.getDetails());
 
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(
-                builder.path(BASE_PATH + "/{id}").buildAndExpand(newPlayer.getUserName()).toUri());
+                builder.path(BASE_PATH + "/{id}").buildAndExpand(newPlayerResource.getUserName()).toUri());
 
-        return new ResponseEntity<Player>(newPlayer, headers, HttpStatus.CREATED);
+        return new ResponseEntity<PlayerResource>(newPlayerResource, headers, HttpStatus.CREATED);
     }
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public List<Player> getAllPlayers() {
-        List<Player> players = new ArrayList<>();
+    public List<PlayerResource> getAllPlayers() {
+        List<PlayerResource> playerResources = new ArrayList<>();
         for (PlayerDetails details : playerService.getAllPlayerDetails()) {
-            players.add(Player.fromPlayerDetails(details));
+            playerResources.add(PlayerResource.fromPlayerDetails(details));
         }
-        return players;
+        return playerResources;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{username}")
-    public ResponseEntity<Player> getPlayer(@PathVariable String username) {
+    public ResponseEntity<PlayerResource> getPlayer(@PathVariable String username) {
         PlayerDetails details = playerService.getPlayerDetails(username);
         if (details != null) {
-            Player player = Player.fromPlayerDetails(details);
-            return new ResponseEntity<Player>(player, HttpStatus.OK);
+            PlayerResource playerResource = PlayerResource.fromPlayerDetails(details);
+            return new ResponseEntity<PlayerResource>(playerResource, HttpStatus.OK);
         }
         else {
-            return new ResponseEntity<Player>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<PlayerResource>(HttpStatus.NOT_FOUND);
         }
     }
 

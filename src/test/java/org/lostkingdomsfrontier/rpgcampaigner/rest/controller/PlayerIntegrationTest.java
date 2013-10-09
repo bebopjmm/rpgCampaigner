@@ -4,8 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.PlayerDetails;
 import org.lostkingdomsfrontier.rpgcampaigner.core.services.PlayerService;
-import org.lostkingdomsfrontier.rpgcampaigner.rest.controller.fixture.RestDataFixture;
-import org.lostkingdomsfrontier.rpgcampaigner.rest.controller.fixture.RestEventFixtures;
+import org.lostkingdomsfrontier.rpgcampaigner.rest.controller.fixture.PlayerRestFixture;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -46,10 +45,10 @@ public class PlayerIntegrationTest {
     @Test
     public void thatCreatePlayerUsesHttpCreated() throws Exception {
         when(playerService.createPlayer(any(PlayerDetails.class))).thenReturn(
-                RestEventFixtures.playerCreated(RestDataFixture.STANDARD_PLAYER_USERNAME));
+                PlayerRestFixture.playerCreated(PlayerRestFixture.STANDARD_PLAYER_USERNAME));
         this.mockMvc.perform(
                 post("/rpgCampaigner/players")
-                        .content(RestDataFixture.standardPlayerJSON())
+                        .content(PlayerRestFixture.standardPlayerJSON())
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -58,7 +57,7 @@ public class PlayerIntegrationTest {
 
     @Test
     public void thatGetPlayersRendersAsJSON() throws Exception {
-        when(playerService.getAllPlayerDetails()).thenReturn(RestDataFixture.allPlayers());
+        when(playerService.getAllPlayerDetails()).thenReturn(PlayerRestFixture.allPlayers());
         this.mockMvc.perform(get("/rpgCampaigner/players").accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -68,7 +67,7 @@ public class PlayerIntegrationTest {
     @Test
     public void thatViewOrderUsesHttpNotFound() throws Exception {
 
-        when(playerService.getPlayerDetails(any(String.class))).thenReturn(RestEventFixtures.playerNotFound());
+        when(playerService.getPlayerDetails(any(String.class))).thenReturn(PlayerRestFixture.playerNotFound());
         this.mockMvc.perform(
                 get("/rpgCampaigner/players/{username}", "fump").accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -78,7 +77,7 @@ public class PlayerIntegrationTest {
     @Test
     public void thatViewOrderUsesHttpOK() throws Exception {
         when(playerService.getPlayerDetails(any(String.class))).thenReturn(
-                RestEventFixtures.playerFound("bocephus"));
+                PlayerRestFixture.playerFound("bocephus"));
         this.mockMvc.perform(
                 get("/rpgCampaigner/players/{username}", "bocephus")
                         .accept(MediaType.APPLICATION_JSON))

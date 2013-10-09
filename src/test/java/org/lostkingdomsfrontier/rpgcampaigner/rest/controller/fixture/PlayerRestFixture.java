@@ -1,6 +1,7 @@
 package org.lostkingdomsfrontier.rpgcampaigner.rest.controller.fixture;
 
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.CampaignDetails;
+import org.lostkingdomsfrontier.rpgcampaigner.core.events.PlayerCreatedEvent;
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.PlayerDetails;
 
 import java.util.ArrayList;
@@ -10,9 +11,9 @@ import java.util.List;
  * @author John McCormick
  * Date: 10/4/13 Time: 10:17
  */
-public class RestDataFixture {
+public class PlayerRestFixture {
 
-    public static final String STANDARD_CAMPAIGN_SLUG = "rotrl";
+
     public static final String STANDARD_PLAYER_USERNAME = "bocephus";
 
     static List<PlayerDetails> standardPlayers;
@@ -25,13 +26,7 @@ public class RestDataFixture {
         standardPlayers.add(customPlayerDetails("betty"));
     }
 
-    public static CampaignDetails customCampaignDetails(String slug) {
-        return new CampaignDetails("Some Fancy Campaign Name", slug);
-    }
 
-    public static String standardCampaignJSON() {
-        return "{\"name\": \"Rise of the Runelords\", \"slug\": \"rotrl\"}";
-    }
 
     public static PlayerDetails customPlayerDetails(String username) {
         return new PlayerDetails(username);
@@ -43,5 +38,17 @@ public class RestDataFixture {
 
     public static List<PlayerDetails> allPlayers() {
         return standardPlayers;
+    }
+
+    public static PlayerCreatedEvent playerCreated(String username) {
+        return new PlayerCreatedEvent(PlayerRestFixture.customPlayerDetails(username));
+    }
+
+    public static PlayerDetails playerNotFound() {
+        return null;
+    }
+
+    public static PlayerDetails playerFound(String username) {
+        return PlayerRestFixture.customPlayerDetails(username);
     }
 }
