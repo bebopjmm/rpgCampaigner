@@ -1,34 +1,38 @@
 package org.lostkingdomsfrontier.rpgcampaigner.core.domain;
 
-import org.lostkingdomsfrontier.rpgcampaigner.core.events.CampaignDetails;
+import org.lostkingdomsfrontier.rpgcampaigner.core.events.ComplexDetails;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
- * The Campaign domain object represents a connected series of Adventures conducted over a series of GamingSessions by a
- * group of Players under the direction of a gameMaster.
- *
  * @author John McCormick
- * Date: 10/3/13 Time: 10:00
+ * Date: 10/11/13 Time: 18:21
  */
 @Document
-public class Campaign {
+public class Complex {
     @Id
     private String key;
+    /**
+     * Descriptive title
+     */
     private String name;
+    /**
+     * Readable identifier used to reference this complex
+     */
     @Indexed(unique = true)
     private String slug;
     @DBRef
-    private Player gameMaster;
+    private Set<Area> areas = new HashSet<>();
     @DBRef
-    private Set<Player> players;
+    private Set<Entrance> entrances = new HashSet<>();
 
-    public static CampaignDetails toCampaignDetails(Campaign campaign) {
-        return new CampaignDetails(campaign.getName(), campaign.getSlug());
+    public static ComplexDetails toComplexDetails(Complex complex) {
+        return new ComplexDetails(complex.getName(), complex.getSlug());
     }
 
     public String getKey() {
@@ -51,19 +55,19 @@ public class Campaign {
         this.slug = slug;
     }
 
-    public Player getGameMaster() {
-        return gameMaster;
+    public Set<Area> getAreas() {
+        return areas;
     }
 
-    public void setGameMaster(Player gameMaster) {
-        this.gameMaster = gameMaster;
+    public void setAreas(Set<Area> areas) {
+        this.areas = areas;
     }
 
-    public Set<Player> getPlayers() {
-        return players;
+    public Set<Entrance> getEntrances() {
+        return entrances;
     }
 
-    public void setPlayers(Set<Player> players) {
-        this.players = players;
+    public void setEntrances(Set<Entrance> entrances) {
+        this.entrances = entrances;
     }
 }

@@ -25,7 +25,7 @@ import org.springframework.web.util.UriComponentsBuilder;
  * @author John McCormick Date: 10/4/13 Time: 09:06
  */
 @Controller
-@RequestMapping("/rpgCampaigner/campaigns")
+@RequestMapping(CampaignController.BASE_PATH)
 public class CampaignController {
     public static final String BASE_PATH = "/rpgCampaigner/campaigns";
     private static Logger LOG = LoggerFactory.getLogger(CampaignController.class);
@@ -41,6 +41,7 @@ public class CampaignController {
                          + "] for gameMaster [" + campaignResource.getGameMasterUsername() + "]");
         if (playerService == null) {
             LOG.error("playerService has NOT been injected properly into this controller!");
+            return new ResponseEntity<CampaignResource>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         PlayerDetails gameMaster = playerService.getPlayerDetails(campaignResource.getGameMasterUsername());
         if (gameMaster == null) {

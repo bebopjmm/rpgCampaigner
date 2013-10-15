@@ -5,7 +5,8 @@ import org.lostkingdomsfrontier.rpgcampaigner.core.events.CampaignDetails;
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.CreateCampaignEvent;
 
 /**
- * @author: bebopjmm Date: 10/4/13 Time: 09:38
+ * @author John McCormick
+ * Date: 10/4/13 Time: 09:38
  */
 public interface CampaignService {
 
