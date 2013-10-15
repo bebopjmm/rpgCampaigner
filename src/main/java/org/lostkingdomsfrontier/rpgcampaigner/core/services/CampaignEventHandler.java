@@ -7,8 +7,12 @@ import org.lostkingdomsfrontier.rpgcampaigner.core.domain.Player;
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.CampaignCreatedEvent;
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.CampaignDetails;
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.CreateCampaignEvent;
+import org.lostkingdomsfrontier.rpgcampaigner.core.events.PlayerDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author John McCormick
@@ -37,5 +41,27 @@ public class CampaignEventHandler implements CampaignService {
         campaign.setGameMaster(gameMaster);
         campaign = campaignRepository.save(campaign);
         return new CampaignCreatedEvent(Campaign.toCampaignDetails(campaign));
+    }
+
+    @Override
+    public List<CampaignDetails> getAllCampaigns() {
+        LOG.info("getAllCampaigns");
+        List<CampaignDetails> results = new ArrayList<>();
+        for (Campaign campaign : campaignRepository.findAll()) {
+            results.add(Campaign.toCampaignDetails(campaign));
+        }
+        return results;
+    }
+
+    @Override
+    public CampaignDetails getCampaignDetails(String campaignSlug) {
+        LOG.info("getCampaignDetails(" + campaignSlug + ")");
+        Campaign campaign = campaignRepository.findBySlug(campaignSlug);
+        if (campaign != null) {
+            return Campaign.toCampaignDetails(campaign);
+        } else {
+            LOG.warn("campaignSlug[" + campaignSlug + "] NOT FOUND in repository");
+            return null;
+        }
     }
 }

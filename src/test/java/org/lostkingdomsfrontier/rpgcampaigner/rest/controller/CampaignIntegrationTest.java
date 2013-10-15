@@ -16,8 +16,10 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
@@ -56,5 +58,33 @@ public class CampaignIntegrationTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isCreated());
+    }
+
+    @Test
+    public void thatGetCampaignsRendersAsJSON() throws Exception {
+        when(campaignService.getAllCampaigns()).thenReturn(CampaignRestFixture.allCampaigns());
+        this.mockMvc.perform(get("/rpgCampaigner/campaigns").accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0]['slug']").value("rotrl"));
+    }
+
+    @Test
+    public void thatViewCampaignUsesHttpNotFound() throws Exception {
+        when(campaignService.getCampaignDetails(any(String.class))).thenReturn(null); // campaign not found
+        this.mockMvc.perform(
+                get("/rpgCampaigner/campaigns/{slug}", "fump").accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void thatViewCampaignUsesHttpOK() throws Exception {
+        when(campaignService.getCampaignDetails(any(String.class))).thenReturn(
+                CampaignRestFixture.campaignFound("rotrl"));
+        this.mockMvc.perform(
+                get("/rpgCampaigner/campaigns/{slug}", "rotrl")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 }

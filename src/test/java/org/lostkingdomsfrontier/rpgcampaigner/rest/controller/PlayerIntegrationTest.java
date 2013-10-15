@@ -65,7 +65,7 @@ public class PlayerIntegrationTest {
     }
 
     @Test
-    public void thatViewOrderUsesHttpNotFound() throws Exception {
+    public void thatViewPlayerUsesHttpNotFound() throws Exception {
 
         when(playerService.getPlayerDetails(any(String.class))).thenReturn(PlayerRestFixture.playerNotFound());
         this.mockMvc.perform(
@@ -75,7 +75,7 @@ public class PlayerIntegrationTest {
     }
 
     @Test
-    public void thatViewOrderUsesHttpOK() throws Exception {
+    public void thatViewPlayerUsesHttpOK() throws Exception {
         when(playerService.getPlayerDetails(any(String.class))).thenReturn(
                 PlayerRestFixture.playerFound("bocephus"));
         this.mockMvc.perform(

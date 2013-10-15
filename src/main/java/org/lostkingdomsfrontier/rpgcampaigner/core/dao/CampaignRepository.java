@@ -10,4 +10,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  * Date: 10/6/13 Time: 07:54
  */
 public interface CampaignRepository extends MongoRepository<Campaign, String> {
+
+    public Campaign findBySlug(String slug);
 }

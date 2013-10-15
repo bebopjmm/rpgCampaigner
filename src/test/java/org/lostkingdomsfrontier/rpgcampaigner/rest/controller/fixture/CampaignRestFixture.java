@@ -3,6 +3,10 @@ package org.lostkingdomsfrontier.rpgcampaigner.rest.controller.fixture;
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.CampaignCreatedEvent;
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.CampaignDetails;
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.CreateCampaignEvent;
+import org.lostkingdomsfrontier.rpgcampaigner.core.events.PlayerDetails;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author John McCormick
@@ -10,6 +14,16 @@ import org.lostkingdomsfrontier.rpgcampaigner.core.events.CreateCampaignEvent;
  */
 public class CampaignRestFixture {
     public static final String STANDARD_CAMPAIGN_SLUG = "rotrl";
+
+    static List<CampaignDetails> standardCampaigns;
+
+    static {
+        standardCampaigns = new ArrayList<>();
+        standardCampaigns.add(CampaignRestFixture.customCampaignDetails("rotrl"));
+        standardCampaigns.add(CampaignRestFixture.customCampaignDetails("cot"));
+        standardCampaigns.add(CampaignRestFixture.customCampaignDetails("kingmaker"));
+        standardCampaigns.add(CampaignRestFixture.customCampaignDetails("serpent-isle"));
+    }
 
     public static CampaignDetails customCampaignDetails(String slug) {
         return new CampaignDetails("Some Fancy CampaignResource Name", slug);
@@ -21,5 +35,13 @@ public class CampaignRestFixture {
 
     public static CampaignCreatedEvent campaignCreated(String slug) {
         return new CampaignCreatedEvent(customCampaignDetails(slug));
+    }
+
+    public static List<CampaignDetails> allCampaigns() {
+        return standardCampaigns;
+    }
+
+    public static CampaignDetails campaignFound(String slug) {
+        return CampaignRestFixture.customCampaignDetails(slug);
     }
 }
