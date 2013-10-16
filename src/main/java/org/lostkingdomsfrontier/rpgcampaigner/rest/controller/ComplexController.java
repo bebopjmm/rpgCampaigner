@@ -3,6 +3,7 @@ package org.lostkingdomsfrontier.rpgcampaigner.rest.controller;
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.ComplexCreatedEvent;
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.ComplexDetails;
 import org.lostkingdomsfrontier.rpgcampaigner.core.services.ComplexService;
+import org.lostkingdomsfrontier.rpgcampaigner.rest.domain.CampaignResource;
 import org.lostkingdomsfrontier.rpgcampaigner.rest.domain.ComplexResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,13 +11,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -38,7 +38,7 @@ public class ComplexController {
                          + "] for campaign [" + campaignSlug + "]");
         if (complexResource == null) {
             LOG.error("complexService has NOT been injected properly into this controller!");
-            return new ResponseEntity<ComplexResource>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         ComplexCreatedEvent complexCreatedEvent =
@@ -56,6 +56,29 @@ public class ComplexController {
         headers.setLocation(builder.path("/rpgCampaigner/campaigns/{campaignSlug}/locations/{id}").
                 buildAndExpand(uriVariables).toUri());
 
-        return new ResponseEntity<ComplexResource>(newComplexResource, headers, HttpStatus.CREATED);
+        return new ResponseEntity<>(newComplexResource, headers, HttpStatus.CREATED);
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public List<ComplexResource> getAllComplexes(@PathVariable String campaignSlug) {
+        List<ComplexResource> resources = new ArrayList<>();
+        for (ComplexDetails details : complexService.getAllComplexesForCampaign(campaignSlug)) {
+            resources.add(ComplexResource.fromComplexDetails(campaignSlug, details));
+        }
+        return resources;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{complexSlug}")
+    public ResponseEntity<ComplexResource> getComplex(@PathVariable String campaignSlug,
+                                                      @PathVariable String complexSlug) {
+        ComplexDetails details = complexService.getComplexDetails(complexSlug);
+        if (details != null) {
+            ComplexResource resource = ComplexResource.fromComplexDetails(campaignSlug, details);
+            return new ResponseEntity<>(resource, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

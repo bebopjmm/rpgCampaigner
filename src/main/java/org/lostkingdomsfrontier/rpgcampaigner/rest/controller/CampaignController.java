@@ -44,11 +44,11 @@ public class CampaignController {
                          + "] for gameMaster [" + campaignResource.getGameMasterUsername() + "]");
         if (playerService == null) {
             LOG.error("playerService has NOT been injected properly into this controller!");
-            return new ResponseEntity<CampaignResource>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         PlayerDetails gameMaster = playerService.getPlayerDetails(campaignResource.getGameMasterUsername());
         if (gameMaster == null) {
-            return new ResponseEntity<CampaignResource>(HttpStatus.FAILED_DEPENDENCY);
+            return new ResponseEntity<>(HttpStatus.FAILED_DEPENDENCY);
         }
 
         CampaignCreatedEvent campaignCreated = campaignService.createCampaign(
@@ -61,7 +61,7 @@ public class CampaignController {
         headers.setLocation(
                 builder.path(BASE_PATH + "/{id}").buildAndExpand(newCampaignResource.getSlug()).toUri());
 
-        return new ResponseEntity<CampaignResource>(newCampaignResource, headers, HttpStatus.CREATED);
+        return new ResponseEntity<>(newCampaignResource, headers, HttpStatus.CREATED);
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -80,10 +80,9 @@ public class CampaignController {
         CampaignDetails details = campaignService.getCampaignDetails(slug);
         if (details != null) {
             CampaignResource resource = CampaignResource.fromCampaignDetails(details);
-            return new ResponseEntity<CampaignResource>(resource, HttpStatus.OK);
-        }
-        else {
-            return new ResponseEntity<CampaignResource>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(resource, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 

@@ -7,7 +7,6 @@ import org.lostkingdomsfrontier.rpgcampaigner.core.domain.Player;
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.CampaignCreatedEvent;
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.CampaignDetails;
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.CreateCampaignEvent;
-import org.lostkingdomsfrontier.rpgcampaigner.core.events.PlayerDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,14 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author John McCormick
- * Date: 10/6/13 Time: 07:49
+ * @author John McCormick Date: 10/6/13 Time: 07:49
  */
 public class CampaignEventHandler implements CampaignService {
     private static Logger LOG = LoggerFactory.getLogger(CampaignEventHandler.class);
-
     private final CampaignRepository campaignRepository;
-
     private final PlayerRepository playerRepository;
 
     public CampaignEventHandler(CampaignRepository campaignRepository,

@@ -3,10 +3,9 @@ package org.lostkingdomsfrontier.rpgcampaigner.rest.controller;
 import org.junit.Before;
 import org.junit.Test;
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.ComplexDetails;
-import org.lostkingdomsfrontier.rpgcampaigner.core.events.PlayerDetails;
 import org.lostkingdomsfrontier.rpgcampaigner.core.services.ComplexService;
+import org.lostkingdomsfrontier.rpgcampaigner.rest.controller.fixture.CampaignRestFixture;
 import org.lostkingdomsfrontier.rpgcampaigner.rest.controller.fixture.ComplexRestFixture;
-import org.lostkingdomsfrontier.rpgcampaigner.rest.controller.fixture.PlayerRestFixture;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -16,21 +15,20 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 /**
- * @author John McCormick
- * Date: 10/15/13 Time: 11:52
+ * @author John McCormick Date: 10/15/13 Time: 11:52
  */
 public class ComplexIntegrationTest {
     MockMvc mockMvc;
-
     @InjectMocks
     ComplexController controller;
-
     @Mock
     ComplexService service;
 
@@ -53,5 +51,35 @@ public class ComplexIntegrationTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isCreated());
+    }
+
+    @Test
+    public void thatGetComplexesRendersAsJSON() throws Exception {
+        when(service.getAllComplexesForCampaign(any(String.class))).thenReturn(
+                ComplexRestFixture.getStandardComplexes());
+        this.mockMvc.perform(get("/rpgCampaigner/campaigns/rotrl/locations/").accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0]['slug']").value("glassworks"));
+    }
+
+    @Test
+    public void thatViewComplexUsesHttpNotFound() throws Exception {
+        when(service.getComplexDetails(any(String.class))).thenReturn(null); // campaign not found
+        this.mockMvc.perform(
+                get("/rpgCampaigner/campaigns/{campaignSlug}/locations/{complexSlug}", "rotrl", "fump")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void thatViewComplexUsesHttpOK() throws Exception {
+        when(service.getComplexDetails(any(String.class))).thenReturn(
+                ComplexRestFixture.complexFound("glassworks"));
+        this.mockMvc.perform(
+                get("/rpgCampaigner/campaigns/{campaignSlug}/locations/{complexSlug}", "rotrl", "glassworks")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 }

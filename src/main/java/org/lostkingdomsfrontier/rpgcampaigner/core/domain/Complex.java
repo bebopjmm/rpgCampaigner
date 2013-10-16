@@ -26,6 +26,9 @@ public class Complex {
      */
     @Indexed(unique = true)
     private String slug;
+
+    private String campaignSlug;
+
     @DBRef
     private Set<Area> areas = new HashSet<>();
     @DBRef
@@ -53,6 +56,14 @@ public class Complex {
 
     public void setSlug(String slug) {
         this.slug = slug;
+    }
+
+    public String getCampaignSlug() {
+        return campaignSlug;
+    }
+
+    public void setCampaignSlug(String campaignSlug) {
+        this.campaignSlug = campaignSlug;
     }
 
     public Set<Area> getAreas() {
