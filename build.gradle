@@ -1,6 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
+apply plugin: 'war'
 
 //these create the 'provided' scope, mainly for the servlet dependency
 apply plugin: 'propdeps'
@@ -37,7 +38,7 @@ dependencies {
     compile 'org.springframework:spring-webmvc:3.2.4.RELEASE'
     compile 'org.springframework.hateoas:spring-hateoas:0.7.0.RELEASE'
 
-    provided 'javax.servlet:javax.servlet-api:3.0.1'
+    provided 'javax.servlet:javax.servlet-api:3.1.0'
 
     runtime 'com.fasterxml.jackson.core:jackson-core:2.2.3'
     runtime 'com.fasterxml.jackson.core:jackson-databind:2.2.3'

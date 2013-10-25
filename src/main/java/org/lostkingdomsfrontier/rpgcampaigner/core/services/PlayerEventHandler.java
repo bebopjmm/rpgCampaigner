@@ -16,28 +16,28 @@ import java.util.List;
  */
 public class PlayerEventHandler implements PlayerService {
     private static Logger LOG = LoggerFactory.getLogger(PlayerEventHandler.class);
-    private final PlayerRepository repository;
+    private final PlayerRepository playerRepository;
 
-    public PlayerEventHandler(final PlayerRepository repository) {
-        this.repository = repository;
+    public PlayerEventHandler(PlayerRepository repository) {
+        this.playerRepository = repository;
     }
 
     @Override
     public PlayerCreatedEvent createPlayer(PlayerDetails details) {
         LOG.info("createPlayer");
         Player player = Player.fromPlayerDetails(details);
-        player = repository.save(player);
+        player = playerRepository.save(player);
         return new PlayerCreatedEvent(Player.toPlayerDetails(player));
     }
 
     @Override
     public PlayerDetails getPlayerDetails(String username) {
         LOG.info("getPlayerDetails(" + username + ")");
-        Player player = repository.findByUsername(username);
+        Player player = playerRepository.findByUsername(username);
         if (player != null) {
             return Player.toPlayerDetails(player);
         } else {
-            LOG.warn("username[" + username + "] NOT FOUND in repository");
+            LOG.warn("username[" + username + "] NOT FOUND in playerRepository");
             return null;
         }
     }
@@ -46,7 +46,7 @@ public class PlayerEventHandler implements PlayerService {
     public List<PlayerDetails> getAllPlayerDetails() {
         LOG.info("getAllPlayerDetails");
         List<PlayerDetails> results = new ArrayList<>();
-        for (Player player : repository.findAll()) {
+        for (Player player : playerRepository.findAll()) {
             results.add(Player.toPlayerDetails(player));
         }
         return results;
