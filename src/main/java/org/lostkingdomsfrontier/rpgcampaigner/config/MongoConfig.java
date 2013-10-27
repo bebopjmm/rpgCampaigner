@@ -8,11 +8,12 @@ import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 /**
- * @author: bebopjmm Date: 10/24/13 Time: 18:46
+ * @author: John McCormick
+ * Date: 10/24/13 Time: 18:46
  */
 @Configuration
 @EnableMongoRepositories("org.lostkingdomsfrontier.rpgcampaigner.core.dao")
-public class MongoTestConfig extends AbstractMongoConfiguration {
+public class MongoConfig extends AbstractMongoConfiguration {
     @Override
     protected String getDatabaseName() {
         return "rpg_campaigner";

@@ -6,7 +6,6 @@ import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
-import org.springframework.web.context.support.XmlWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
 import javax.servlet.ServletContext;
@@ -29,8 +28,8 @@ public class WebAppInitialization implements WebApplicationInitializer {
     }
 
     private WebApplicationContext createRootContext(ServletContext servletContext) {
-        XmlWebApplicationContext rootContext = new XmlWebApplicationContext();
-        rootContext.setServletContext(servletContext);
+        AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
+        rootContext.register(ServiceConfig.class, MongoConfig.class);
         rootContext.refresh();
         servletContext.addListener(new ContextLoaderListener(rootContext));
         servletContext.setInitParameter("defaultHtmlEscape", "true");
@@ -43,9 +42,9 @@ public class WebAppInitialization implements WebApplicationInitializer {
         mvcContext.setParent(rootContext);
 
         ServletRegistration.Dynamic appServlet =
-                servletContext.addServlet("webservice", new DispatcherServlet(mvcContext));
+                servletContext.addServlet("rpgcampaigner", new DispatcherServlet(mvcContext));
         appServlet.setLoadOnStartup(1);
-        Set<String> mappingConflicts = appServlet.addMapping("/");
+        Set<String> mappingConflicts = appServlet.addMapping("/*");
 
         if (!mappingConflicts.isEmpty()) {
             for (String s : mappingConflicts) {

@@ -24,7 +24,7 @@ import java.util.List;
  * Date: 10/8/13 Time: 17:37
  */
 @Controller
-@RequestMapping("/rpgCampaigner/players")
+@RequestMapping(PlayerController.BASE_PATH)
 public class PlayerController {
     public static final String BASE_PATH = "/rpgCampaigner/players";
     private static Logger LOG = LoggerFactory.getLogger(PlayerController.class);
