@@ -2,7 +2,6 @@ package org.lostkingdomsfrontier.rpgcampaigner.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.WebApplicationContext;
@@ -43,8 +42,8 @@ public class WebAppInitialization implements WebApplicationInitializer {
         mvcContext.register(MvcConfig.class);
         mvcContext.setParent(rootContext);
 
-        ServletRegistration.Dynamic appServlet = servletContext.addServlet(
-                "webservice", new DispatcherServlet(mvcContext));
+        ServletRegistration.Dynamic appServlet =
+                servletContext.addServlet("webservice", new DispatcherServlet(mvcContext));
         appServlet.setLoadOnStartup(1);
         Set<String> mappingConflicts = appServlet.addMapping("/");
 

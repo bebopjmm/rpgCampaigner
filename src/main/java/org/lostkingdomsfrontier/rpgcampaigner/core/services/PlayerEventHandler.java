@@ -6,6 +6,7 @@ import org.lostkingdomsfrontier.rpgcampaigner.core.events.PlayerCreatedEvent;
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.PlayerDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,8 @@ public class PlayerEventHandler implements PlayerService {
     private static Logger LOG = LoggerFactory.getLogger(PlayerEventHandler.class);
     private final PlayerRepository playerRepository;
 
-    public PlayerEventHandler(PlayerRepository repository) {
+    @Autowired
+    public PlayerEventHandler(final PlayerRepository repository) {
         this.playerRepository = repository;
     }
 
