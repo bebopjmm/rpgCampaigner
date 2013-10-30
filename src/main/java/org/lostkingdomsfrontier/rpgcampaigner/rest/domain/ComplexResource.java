@@ -19,17 +19,12 @@ public class ComplexResource extends ResourceSupport {
      * Descriptive title
      */
     private String name;
-    /**
-     * Readable identifier used to reference this complex
-     */
-    private String slug;
 
     public static ComplexResource fromComplexDetails(String campaignSlug, ComplexDetails details) {
         ComplexResource resource = new ComplexResource();
         resource.setName(details.getName());
-        resource.setSlug(details.getSlug());
 
-        resource.add(linkTo(ComplexController.class, campaignSlug).slash(details.getSlug()).withSelfRel());
+        resource.add(linkTo(ComplexController.class, campaignSlug).slash(details.getKey()).withSelfRel());
         resource.add(linkTo(CampaignController.class).slash(campaignSlug).withRel("campaign"));
 
         return resource;
@@ -43,11 +38,4 @@ public class ComplexResource extends ResourceSupport {
         this.name = name;
     }
 
-    public String getSlug() {
-        return slug;
-    }
-
-    public void setSlug(String slug) {
-        this.slug = slug;
-    }
 }

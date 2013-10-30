@@ -10,6 +10,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * The Complex domain object represents a set of Areas connected by Entrances that can be explored as part of an
+ * Adventure.
+ *
  * @author John McCormick
  * Date: 10/11/13 Time: 18:21
  */
@@ -22,11 +25,8 @@ public class Complex {
      */
     private String name;
     /**
-     * Readable identifier used to reference this complex
+     * Slug identifier of Campaign that this Complex is associated with
      */
-    @Indexed(unique = true)
-    private String slug;
-
     private String campaignSlug;
 
     @DBRef
@@ -35,7 +35,7 @@ public class Complex {
     private Set<Entrance> entrances = new HashSet<>();
 
     public static ComplexDetails toComplexDetails(Complex complex) {
-        return new ComplexDetails(complex.getName(), complex.getSlug());
+        return new ComplexDetails(complex.getName(), complex.getKey());
     }
 
     public String getKey() {
@@ -48,14 +48,6 @@ public class Complex {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getSlug() {
-        return slug;
-    }
-
-    public void setSlug(String slug) {
-        this.slug = slug;
     }
 
     public String getCampaignSlug() {

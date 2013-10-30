@@ -1,11 +1,9 @@
 package org.lostkingdomsfrontier.rpgcampaigner.config;
 
 import org.lostkingdomsfrontier.rpgcampaigner.core.dao.CampaignRepository;
+import org.lostkingdomsfrontier.rpgcampaigner.core.dao.ComplexRepository;
 import org.lostkingdomsfrontier.rpgcampaigner.core.dao.PlayerRepository;
-import org.lostkingdomsfrontier.rpgcampaigner.core.services.CampaignEventHandler;
-import org.lostkingdomsfrontier.rpgcampaigner.core.services.CampaignService;
-import org.lostkingdomsfrontier.rpgcampaigner.core.services.PlayerEventHandler;
-import org.lostkingdomsfrontier.rpgcampaigner.core.services.PlayerService;
+import org.lostkingdomsfrontier.rpgcampaigner.core.services.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -25,6 +23,11 @@ public class ServiceConfig {
     @Bean
     public PlayerService createPlayerService(PlayerRepository playerRepository) {
         return new PlayerEventHandler(playerRepository);
+    }
+
+    @Bean
+    public ComplexService createComplexService(ComplexRepository complexRepository) {
+        return new ComplexEventHandler(complexRepository);
     }
 
 }

@@ -12,8 +12,6 @@ import java.util.List;
  */
 public interface ComplexRepository extends MongoRepository<Complex, String> {
 
-    public Complex findBySlug(String slug);
-
     /**
      * This method returns all Complex instances associated with the designated Campaign
      * @param campaignSlug identifying slug of the Campaign to filter

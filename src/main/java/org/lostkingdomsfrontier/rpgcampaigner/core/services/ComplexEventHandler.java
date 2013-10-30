@@ -4,6 +4,7 @@ import org.lostkingdomsfrontier.rpgcampaigner.core.dao.ComplexRepository;
 import org.lostkingdomsfrontier.rpgcampaigner.core.domain.Complex;
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.ComplexCreatedEvent;
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.ComplexDetails;
+import org.lostkingdomsfrontier.rpgcampaigner.core.events.CreateComplexEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,11 +23,11 @@ public class ComplexEventHandler implements ComplexService {
     }
 
     @Override
-    public ComplexCreatedEvent createComplex(ComplexDetails complexDetails) {
+    public ComplexCreatedEvent createComplex(CreateComplexEvent event) {
         LOG.info("createComplex");
         Complex complex = new Complex();
-        complex.setName(complexDetails.getName());
-        complex.setSlug(complexDetails.getSlug());
+        complex.setName(event.getComplexName());
+        complex.setCampaignSlug(event.getCampaignSlug());
         complex = complexRepository.save(complex);
 
         return new ComplexCreatedEvent(Complex.toComplexDetails(complex));
@@ -43,13 +44,13 @@ public class ComplexEventHandler implements ComplexService {
     }
 
     @Override
-    public ComplexDetails getComplexDetails(String complexSlug) {
-        LOG.info("getComplexDetails(" + complexSlug + ")");
-        Complex complex = complexRepository.findBySlug(complexSlug);
+    public ComplexDetails getComplexDetails(String complexKey) {
+        LOG.info("getComplexDetails(" + complexKey + ")");
+        Complex complex = complexRepository.findOne(complexKey);
         if (complex != null) {
             return Complex.toComplexDetails(complex);
         } else {
-            LOG.warn("complexSlug[" + complexSlug + "] NOT FOUND in repository");
+            LOG.warn("complexKey[" + complexKey + "] NOT FOUND in repository");
             return null;
         }
     }

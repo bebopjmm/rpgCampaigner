@@ -3,6 +3,7 @@ package org.lostkingdomsfrontier.rpgcampaigner.rest.controller;
 import org.junit.Before;
 import org.junit.Test;
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.ComplexDetails;
+import org.lostkingdomsfrontier.rpgcampaigner.core.events.CreateComplexEvent;
 import org.lostkingdomsfrontier.rpgcampaigner.core.services.ComplexService;
 import org.lostkingdomsfrontier.rpgcampaigner.rest.controller.fixture.CampaignRestFixture;
 import org.lostkingdomsfrontier.rpgcampaigner.rest.controller.fixture.ComplexRestFixture;
@@ -42,8 +43,8 @@ public class ComplexIntegrationTest {
 
     @Test
     public void thatCreateComplexUsesHttpCreated() throws Exception {
-        when(service.createComplex(any(ComplexDetails.class))).thenReturn(
-                ComplexRestFixture.complexCreated(ComplexRestFixture.STANDARD_COMPLEX_SLUG));
+        when(service.createComplex(any(CreateComplexEvent.class))).thenReturn(
+                ComplexRestFixture.complexCreated(ComplexRestFixture.STANDARD_COMPLEX_KEY, "Catacombs of Wrath"));
         this.mockMvc.perform(
                 post("/rpgCampaigner/campaigns/rotrl/locations")
                         .content(ComplexRestFixture.newComplexJSON())
@@ -60,14 +61,15 @@ public class ComplexIntegrationTest {
         this.mockMvc.perform(get("/rpgCampaigner/campaigns/rotrl/locations/").accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0]['slug']").value("glassworks"));
+                .andExpect(jsonPath("$.links").isArray())
+                .andExpect(jsonPath("$.links[0].rel").value("Glassworks"));
     }
 
     @Test
     public void thatViewComplexUsesHttpNotFound() throws Exception {
         when(service.getComplexDetails(any(String.class))).thenReturn(null); // campaign not found
         this.mockMvc.perform(
-                get("/rpgCampaigner/campaigns/{campaignSlug}/locations/{complexSlug}", "rotrl", "fump")
+                get("/rpgCampaigner/campaigns/{campaignSlug}/locations/{complexSlug}", "rotrl", "6j7k8l")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isNotFound());
@@ -76,9 +78,9 @@ public class ComplexIntegrationTest {
     @Test
     public void thatViewComplexUsesHttpOK() throws Exception {
         when(service.getComplexDetails(any(String.class))).thenReturn(
-                ComplexRestFixture.complexFound("glassworks"));
+                ComplexRestFixture.complexFound("a1b2c3d4"));
         this.mockMvc.perform(
-                get("/rpgCampaigner/campaigns/{campaignSlug}/locations/{complexSlug}", "rotrl", "glassworks")
+                get("/rpgCampaigner/campaigns/{campaignSlug}/locations/{complexKey}", "rotrl", "a1b2c3d4")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }

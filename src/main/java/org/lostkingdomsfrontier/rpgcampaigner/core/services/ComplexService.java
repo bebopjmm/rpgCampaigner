@@ -2,6 +2,7 @@ package org.lostkingdomsfrontier.rpgcampaigner.core.services;
 
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.ComplexCreatedEvent;
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.ComplexDetails;
+import org.lostkingdomsfrontier.rpgcampaigner.core.events.CreateComplexEvent;
 
 import java.util.List;
 
@@ -11,9 +12,9 @@ import java.util.List;
  */
 public interface ComplexService {
 
-    public ComplexCreatedEvent createComplex(ComplexDetails complexDetails);
+    public ComplexCreatedEvent createComplex(CreateComplexEvent event);
 
     public List<ComplexDetails> getAllComplexesForCampaign(String campaignSlug);
 
-    public ComplexDetails getComplexDetails(String complexSlug);
+    public ComplexDetails getComplexDetails(String complexKey);
 }

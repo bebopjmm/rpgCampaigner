@@ -7,18 +7,18 @@ package org.lostkingdomsfrontier.rpgcampaigner.core.events;
 public class ComplexDetails {
     private final String name;
 
-    private final String slug;
+    private final String key;
 
-    public ComplexDetails(String name, String slug) {
+    public ComplexDetails(String name, String key) {
         this.name = name;
-        this.slug = slug;
+        this.key = key;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getSlug() {
-        return slug;
+    public String getKey() {
+        return key;
     }
 }
