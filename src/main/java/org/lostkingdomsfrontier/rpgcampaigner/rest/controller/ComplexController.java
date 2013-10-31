@@ -128,7 +128,7 @@ public class ComplexController {
         return new ResponseEntity<>(null, null, HttpStatus.CREATED);
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET, value = "/{complexID}/areas")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public ResourceSupport getAreasIndexForComplex(@PathVariable String campaignSlug, @PathVariable String complexID) {

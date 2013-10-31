@@ -18,7 +18,7 @@ import static junit.framework.TestCase.*;
  * Date: 10/24/13 Time: 18:20
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {ServiceConfig.class, MongoConfig.class})
+@ContextConfiguration(classes = {ServiceConfig.class, MongoTestConfig.class})
 public class CoreDomainIntegrationTest {
 
     @Autowired

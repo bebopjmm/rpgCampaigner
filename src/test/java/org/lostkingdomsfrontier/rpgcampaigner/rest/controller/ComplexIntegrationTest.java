@@ -3,8 +3,10 @@ package org.lostkingdomsfrontier.rpgcampaigner.rest.controller;
 import org.junit.Before;
 import org.junit.Test;
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.ComplexDetails;
+import org.lostkingdomsfrontier.rpgcampaigner.core.events.CreateAreaEvent;
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.CreateComplexEvent;
 import org.lostkingdomsfrontier.rpgcampaigner.core.services.ComplexService;
+import org.lostkingdomsfrontier.rpgcampaigner.rest.controller.fixture.AreaRestFixture;
 import org.lostkingdomsfrontier.rpgcampaigner.rest.controller.fixture.CampaignRestFixture;
 import org.lostkingdomsfrontier.rpgcampaigner.rest.controller.fixture.ComplexRestFixture;
 import org.mockito.InjectMocks;
@@ -83,5 +85,18 @@ public class ComplexIntegrationTest {
                 get("/rpgCampaigner/campaigns/{campaignSlug}/locations/{complexKey}", "rotrl", "a1b2c3d4")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void thatAddAreaToComplexUsesHttpCreated() throws Exception {
+        when(service.addAreaToComplex(any(CreateAreaEvent.class),any(String.class))).thenReturn(
+                AreaRestFixture.areaCreated());
+        this.mockMvc.perform(
+                post("/rpgCampaigner/campaigns/rotrl/locations/1a2b3c4d/areas")
+                        .content(AreaRestFixture.newAreaJSON())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isCreated());
     }
 }
