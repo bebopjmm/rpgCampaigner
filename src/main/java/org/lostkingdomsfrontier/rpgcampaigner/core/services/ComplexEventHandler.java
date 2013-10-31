@@ -92,4 +92,18 @@ public class ComplexEventHandler implements ComplexService {
         return results;
     }
 
+    @Override
+    public AreaDetails getAreaFromComplex(String areaID, String complexID) {
+        LOG.info("getAreaFromComplex(area/complex):" + areaID + "/" + complexID);
+        Area area = areaRepository.findOne(areaID);
+        if (area == null) {
+            LOG.warn("areaID[" + areaID + "] NOT FOUND in repository");
+            return null;
+        }
+        if (!area.getComplexID().equals(complexID)) {
+            LOG.warn("areaID[" + areaID + "] is NOT part of complex[" + complexID);
+            return null;
+        }
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 }

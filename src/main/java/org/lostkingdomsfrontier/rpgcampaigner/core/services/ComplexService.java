@@ -20,4 +20,6 @@ public interface ComplexService {
 
     public List<AreaDetails> getAllAreasForComplex(String complexID);
 
+    public AreaDetails getAreaFromComplex(String areaID, String complexID);
+
 }

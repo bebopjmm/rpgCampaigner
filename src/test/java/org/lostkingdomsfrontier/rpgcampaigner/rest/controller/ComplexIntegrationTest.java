@@ -2,12 +2,10 @@ package org.lostkingdomsfrontier.rpgcampaigner.rest.controller;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.lostkingdomsfrontier.rpgcampaigner.core.events.ComplexDetails;
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.CreateAreaEvent;
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.CreateComplexEvent;
 import org.lostkingdomsfrontier.rpgcampaigner.core.services.ComplexService;
 import org.lostkingdomsfrontier.rpgcampaigner.rest.controller.fixture.AreaRestFixture;
-import org.lostkingdomsfrontier.rpgcampaigner.rest.controller.fixture.CampaignRestFixture;
 import org.lostkingdomsfrontier.rpgcampaigner.rest.controller.fixture.ComplexRestFixture;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -17,6 +15,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -69,7 +68,7 @@ public class ComplexIntegrationTest {
 
     @Test
     public void thatViewComplexUsesHttpNotFound() throws Exception {
-        when(service.getComplexDetails(any(String.class))).thenReturn(null); // campaign not found
+        when(service.getComplexDetails(any(String.class))).thenReturn(null); // complex not found
         this.mockMvc.perform(
                 get("/rpgCampaigner/campaigns/{campaignSlug}/locations/{complexSlug}", "rotrl", "6j7k8l")
                         .accept(MediaType.APPLICATION_JSON))
@@ -89,7 +88,7 @@ public class ComplexIntegrationTest {
 
     @Test
     public void thatAddAreaToComplexUsesHttpCreated() throws Exception {
-        when(service.addAreaToComplex(any(CreateAreaEvent.class),any(String.class))).thenReturn(
+        when(service.addAreaToComplex(any(CreateAreaEvent.class), any(String.class))).thenReturn(
                 AreaRestFixture.areaCreated());
         this.mockMvc.perform(
                 post("/rpgCampaigner/campaigns/rotrl/locations/1a2b3c4d/areas")
@@ -98,5 +97,37 @@ public class ComplexIntegrationTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isCreated());
+    }
+
+    @Test
+    public void thatGetAreasRendersAsJSON() throws Exception {
+        when(service.getAllAreasForComplex(any(String.class))).thenReturn(
+                AreaRestFixture.allAreas());
+        this.mockMvc.perform(
+                get("/rpgCampaigner/campaigns/rotrl/locations/1a2b3c4d/areas").accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.links").isArray())
+                .andExpect(jsonPath("$.links[0].rel").value(AreaRestFixture.allAreas().get(0).getName()));
+    }
+
+    @Test
+    public void thatViewAreaUsesHttpOK() throws Exception {
+        when(service.getAreaFromComplex(anyString(), anyString())).thenReturn(
+                AreaRestFixture.areaFound());
+        this.mockMvc.perform(
+                get("/rpgCampaigner/campaigns/{campaignSlug}/locations/{complexID}/areas/{areaID}", "rotrl", "1a2b3c4d",
+                    "a1b2c3").accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void thatViewAreaUsesHttpNotFound() throws Exception {
+        when(service.getAreaFromComplex(anyString(), anyString())).thenReturn(null); // area not found
+        this.mockMvc.perform(
+                get("/rpgCampaigner/campaigns/{campaignSlug}/locations/{complexID}/areas/{areaID}", "rotrl", "1a2b3c4d",
+                    "a1b2c3").accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isNotFound());
     }
 }

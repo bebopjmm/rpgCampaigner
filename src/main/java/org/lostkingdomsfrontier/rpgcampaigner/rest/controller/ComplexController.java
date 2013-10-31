@@ -143,4 +143,17 @@ public class ComplexController {
         }
         return indexResource;
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{complexID}/areas/{areaID}")
+    public ResponseEntity<AreaResource> getArea(@PathVariable String campaignSlug,
+                                                @PathVariable String complexID,
+                                                @PathVariable String areaID) {
+        AreaDetails details = complexService.getAreaFromComplex(areaID, complexID);
+        if (details != null) {
+            AreaResource resource = AreaResource.fromAreaDetails(details, campaignSlug);
+            return new ResponseEntity<>(resource, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 }
