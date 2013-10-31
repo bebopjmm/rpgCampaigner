@@ -1,10 +1,10 @@
 package org.lostkingdomsfrontier.rpgcampaigner.core.services;
 
+import org.lostkingdomsfrontier.rpgcampaigner.core.dao.AreaRepository;
 import org.lostkingdomsfrontier.rpgcampaigner.core.dao.ComplexRepository;
+import org.lostkingdomsfrontier.rpgcampaigner.core.domain.Area;
 import org.lostkingdomsfrontier.rpgcampaigner.core.domain.Complex;
-import org.lostkingdomsfrontier.rpgcampaigner.core.events.ComplexCreatedEvent;
-import org.lostkingdomsfrontier.rpgcampaigner.core.events.ComplexDetails;
-import org.lostkingdomsfrontier.rpgcampaigner.core.events.CreateComplexEvent;
+import org.lostkingdomsfrontier.rpgcampaigner.core.events.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,14 +12,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author John McCormick Date: 10/15/13 Time: 11:40
+ * @author John McCormick
+ * Date: 10/15/13 Time: 11:40
  */
 public class ComplexEventHandler implements ComplexService {
     private static Logger LOG = LoggerFactory.getLogger(ComplexEventHandler.class);
     private final ComplexRepository complexRepository;
+    private final AreaRepository areaRepository;
 
-    public ComplexEventHandler(ComplexRepository complexRepository) {
+    public ComplexEventHandler(ComplexRepository complexRepository, AreaRepository areaRepository) {
         this.complexRepository = complexRepository;
+        this.areaRepository = areaRepository;
     }
 
     @Override
@@ -54,4 +57,39 @@ public class ComplexEventHandler implements ComplexService {
             return null;
         }
     }
+
+    @Override
+    public AreaDetails addAreaToComplex(CreateAreaEvent event, String complexKey) {
+        LOG.info("addAreaToComplex[" + complexKey +"]: " + event.getAreaName());
+        Complex complex = complexRepository.findOne(complexKey);
+        if (complex == null) {
+            LOG.warn("complexKey[" + complexKey + "] NOT FOUND in repository");
+            return null;
+        }
+        Area area = new Area();
+        area.setName(event.getAreaName());
+        area.setDescription(event.getAreaDescription());
+        area.setDetails(event.getAreaDetails());
+        area.setComplexID(complexKey);
+        area = areaRepository.save(area);
+        complex.getAreas().add(area);
+        complex = complexRepository.save(complex);
+        return Area.toAreaDetails(area);
+    }
+
+    @Override
+    public List<AreaDetails> getAllAreasForComplex(String complexID) {
+        LOG.info("getAllAreasForComplex: " + complexID);
+        List<AreaDetails> results = new ArrayList<>();
+        Complex complex = complexRepository.findOne(complexID);
+        if (complex != null) {
+            for (Area area : complex.getAreas()) {
+                results.add(Area.toAreaDetails(area));
+            }
+        } else {
+            LOG.warn("complexID[" + complexID + "] NOT FOUND in repository");
+        }
+        return results;
+    }
+
 }

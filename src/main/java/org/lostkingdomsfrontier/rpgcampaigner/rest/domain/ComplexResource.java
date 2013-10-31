@@ -26,6 +26,7 @@ public class ComplexResource extends ResourceSupport {
 
         resource.add(linkTo(ComplexController.class, campaignSlug).slash(details.getKey()).withSelfRel());
         resource.add(linkTo(CampaignController.class).slash(campaignSlug).withRel("campaign"));
+        resource.add(linkTo(ComplexController.class, campaignSlug).slash(details.getKey()).slash("areas").withRel("areas"));
 
         return resource;
     }

@@ -1,9 +1,8 @@
 package org.lostkingdomsfrontier.rpgcampaigner.rest.controller;
 
-import org.lostkingdomsfrontier.rpgcampaigner.core.events.ComplexCreatedEvent;
-import org.lostkingdomsfrontier.rpgcampaigner.core.events.ComplexDetails;
-import org.lostkingdomsfrontier.rpgcampaigner.core.events.CreateComplexEvent;
+import org.lostkingdomsfrontier.rpgcampaigner.core.events.*;
 import org.lostkingdomsfrontier.rpgcampaigner.core.services.ComplexService;
+import org.lostkingdomsfrontier.rpgcampaigner.rest.domain.AreaResource;
 import org.lostkingdomsfrontier.rpgcampaigner.rest.domain.ComplexResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -80,17 +79,17 @@ public class ComplexController {
         List<ComplexDetails> complexList = complexService.getAllComplexesForCampaign(campaignSlug);
         if (complexList == null) return indexResource;
 
-        for (ComplexDetails details : complexService.getAllComplexesForCampaign(campaignSlug)) {
+        for (ComplexDetails details : complexList) {
             indexResource.add(
                     linkTo(ComplexController.class, campaignSlug).slash(details.getKey()).withRel(details.getName()));
         }
         return indexResource;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/{complexSlug}")
+    @RequestMapping(method = RequestMethod.GET, value = "/{complexID}")
     public ResponseEntity<ComplexResource> getComplex(@PathVariable String campaignSlug,
-                                                      @PathVariable String complexSlug) {
-        ComplexDetails details = complexService.getComplexDetails(complexSlug);
+                                                      @PathVariable String complexID) {
+        ComplexDetails details = complexService.getComplexDetails(complexID);
         if (details != null) {
             ComplexResource resource = ComplexResource.fromComplexDetails(campaignSlug, details);
             return new ResponseEntity<>(resource, HttpStatus.OK);
@@ -103,11 +102,45 @@ public class ComplexController {
      * Adds a new Area to the designated Complex. Uses POST because the semantics are adding something (the Area) to a
      * container (the Complex).
      *
-     * @param complexSlug
+     * @param areaResource
+     * @param complexID
      */
-    @RequestMapping(method = RequestMethod.POST, value = "/{complexSlug}")
-    public void addAreaToComplex(// AreaResource?
-                                 @PathVariable String complexSlug) {
+    @RequestMapping(method = RequestMethod.POST, value = "/{complexID}/areas")
+    public ResponseEntity<AreaResource> addAreaToComplex(@RequestBody AreaResource areaResource,
+                                                         @PathVariable String campaignSlug,
+                                                         @PathVariable String complexID) {
 
+        LOG.info("addAreaToComplex for " + areaResource.getName() + " for complex [" + complexID + "]");
+        if (areaResource == null) {
+            LOG.error("areaResource has NOT been injected properly into this controller!");
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        AreaDetails createdArea = complexService.addAreaToComplex(
+                new CreateAreaEvent(areaResource.getName(), areaResource.getDescription(), areaResource.getDetails()),
+                complexID);
+        LOG.info("areaCreated: " + createdArea.getName() + "[" + createdArea.getKey() + "]");
+        AreaResource newAreaResource = AreaResource.fromAreaDetails(createdArea, campaignSlug);
+
+        HttpHeaders headers = new HttpHeaders();
+        LOG.info("Header Location = " + newAreaResource.getId());
+
+        return new ResponseEntity<>(null, null, HttpStatus.CREATED);
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public ResourceSupport getAreasIndexForComplex(@PathVariable String campaignSlug, @PathVariable String complexID) {
+        ResourceSupport indexResource = new ResourceSupport();
+        List<AreaDetails> areaList = complexService.getAllAreasForComplex(complexID);
+        if (areaList == null) return indexResource;
+
+        for (AreaDetails details : areaList) {
+            indexResource.add(
+                    linkTo(ComplexController.class, campaignSlug).slash(details.getComplexID()).slash("areas")
+                            .slash(details.getKey()).withRel(details.getName()));
+        }
+        return indexResource;
     }
 }

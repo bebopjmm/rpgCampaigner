@@ -1,5 +1,6 @@
 package org.lostkingdomsfrontier.rpgcampaigner.config;
 
+import org.lostkingdomsfrontier.rpgcampaigner.core.dao.AreaRepository;
 import org.lostkingdomsfrontier.rpgcampaigner.core.dao.CampaignRepository;
 import org.lostkingdomsfrontier.rpgcampaigner.core.dao.ComplexRepository;
 import org.lostkingdomsfrontier.rpgcampaigner.core.dao.PlayerRepository;
@@ -26,8 +27,8 @@ public class ServiceConfig {
     }
 
     @Bean
-    public ComplexService createComplexService(ComplexRepository complexRepository) {
-        return new ComplexEventHandler(complexRepository);
+    public ComplexService createComplexService(ComplexRepository complexRepository, AreaRepository areaRepository) {
+        return new ComplexEventHandler(complexRepository, areaRepository);
     }
 
 }
