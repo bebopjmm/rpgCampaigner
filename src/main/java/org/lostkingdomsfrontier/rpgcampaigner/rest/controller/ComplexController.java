@@ -4,6 +4,7 @@ import org.lostkingdomsfrontier.rpgcampaigner.core.events.*;
 import org.lostkingdomsfrontier.rpgcampaigner.core.services.ComplexService;
 import org.lostkingdomsfrontier.rpgcampaigner.rest.domain.AreaResource;
 import org.lostkingdomsfrontier.rpgcampaigner.rest.domain.ComplexResource;
+import org.lostkingdomsfrontier.rpgcampaigner.rest.domain.TransitionResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -123,9 +124,11 @@ public class ComplexController {
         AreaResource newAreaResource = AreaResource.fromAreaDetails(createdArea, campaignSlug);
 
         HttpHeaders headers = new HttpHeaders();
-        LOG.info("Header Location = " + newAreaResource.getId());
+        headers.setLocation(linkTo(ComplexController.class, campaignSlug).slash(complexID).slash("areas")
+                                    .slash(createdArea.getKey()).toUri());
+        LOG.info("Header Location = " + headers.getLocation().toString());
 
-        return new ResponseEntity<>(null, null, HttpStatus.CREATED);
+        return new ResponseEntity<>(newAreaResource, headers, HttpStatus.CREATED);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{complexID}/areas")
@@ -155,5 +158,51 @@ public class ComplexController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    /**
+     * Adds a new Transition to the designated Complex. Uses POST because the semantics are adding something (the
+     * Transition) to a container (the Complex).
+     *
+     * @param transitionResource
+     * @param complexID
+     */
+    @RequestMapping(method = RequestMethod.POST, value = "/{complexID}/transitions")
+    public ResponseEntity<TransitionResource> addTransitionToComplex(@RequestBody TransitionResource transitionResource,
+                                                                     @PathVariable String campaignSlug,
+                                                                     @PathVariable String complexID) {
+
+        LOG.info("addTransitionToComplex for " + transitionResource.getName() + " for complex [" + complexID + "]");
+        if (transitionResource == null) {
+            LOG.error("transitionResource has NOT been injected properly into this controller!");
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        TransitionDetails createdTransition = complexService.addTransitionToComplex(
+                new CreateTransitionEvent(transitionResource.getName(), transitionResource.getDescription()),
+                complexID);
+        LOG.info("transitionCreated: " + createdTransition.getName() + "[" + createdTransition.getKey() + "]");
+        TransitionResource newResource = TransitionResource.fromTransitionDetails(createdTransition, campaignSlug);
+
+        HttpHeaders headers = new HttpHeaders();
+        LOG.info("Header Location = " + newResource.getId());
+
+        return new ResponseEntity<>(newResource, headers, HttpStatus.CREATED);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{complexID}/transitions")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public ResourceSupport getTransitionIndexForComplex(@PathVariable String campaignSlug, @PathVariable String complexID) {
+        ResourceSupport indexResource = new ResourceSupport();
+        List<TransitionDetails> transitionList = complexService.getAllTransitionsForComplex(complexID);
+        if (transitionList == null) return indexResource;
+
+        for (TransitionDetails details : transitionList) {
+            indexResource.add(
+                    linkTo(ComplexController.class, campaignSlug).slash(details.getComplexID()).slash("transitions")
+                            .slash(details.getKey()).withRel(details.getName()));
+        }
+        return indexResource;
     }
 }

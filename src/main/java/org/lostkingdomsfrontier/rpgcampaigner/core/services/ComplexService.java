@@ -14,12 +14,16 @@ public interface ComplexService {
 
     public List<ComplexDetails> getAllComplexesForCampaign(String campaignSlug);
 
-    public ComplexDetails getComplexDetails(String complexKey);
+    public ComplexDetails getComplexDetails(String complexID);
 
-    public AreaDetails addAreaToComplex(CreateAreaEvent event, String complexKey);
+    public AreaDetails addAreaToComplex(CreateAreaEvent event, String complexID);
 
     public List<AreaDetails> getAllAreasForComplex(String complexID);
 
     public AreaDetails getAreaFromComplex(String areaID, String complexID);
+
+    public TransitionDetails addTransitionToComplex(CreateTransitionEvent event, String complexID);
+
+    public List<TransitionDetails> getAllTransitionsForComplex(String complexID);
 
 }

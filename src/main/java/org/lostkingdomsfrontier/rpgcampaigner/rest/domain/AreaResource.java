@@ -34,6 +34,8 @@ public class AreaResource extends ResourceSupport {
         resource.setDescription(details.getDescription());
         resource.setDetails(details.getDetails());
 
+        resource.add(linkTo(ComplexController.class, campaignSlug).slash(details.getComplexID()).slash("areas")
+                             .slash(details.getKey()).withSelfRel());
         resource.add(linkTo(ComplexController.class, campaignSlug).slash(details.getComplexID()).withRel("complex"));
 
         return resource;

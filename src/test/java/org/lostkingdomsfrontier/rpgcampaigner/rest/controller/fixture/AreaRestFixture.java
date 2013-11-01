@@ -16,7 +16,7 @@ public class AreaRestFixture {
     static {
         standardAreas = new ArrayList<>();
         standardAreas.add(new AreaDetails("a1b2c3", "Throne Room", "A grand room", "nothing", "1a2b3c"));
-        standardAreas.add(new AreaDetails("d4e5f6", "Entrance Hall", "A simple hallway", "nothing", "1a2b3c"));
+        standardAreas.add(new AreaDetails("d4e5f6", "Transition Hall", "A simple hallway", "nothing", "1a2b3c"));
     }
 
     public static AreaDetails areaCreated() {
@@ -24,7 +24,7 @@ public class AreaRestFixture {
     }
 
     public static String newAreaJSON() {
-        return "{\"name\": \"Entrance Hall\", \"description\": \"A simple hallway\", \"details\": \"nothing of interest\"}";
+        return "{\"name\": \"Transition Hall\", \"description\": \"A simple hallway\", \"details\": \"nothing of interest\"}";
     }
 
     public static List<AreaDetails> allAreas() {

@@ -15,7 +15,7 @@ import java.util.List;
  */
 @Document
 public class Area {
-    List<Entrance> entrances = new ArrayList<>();
+    List<Transition> transitions = new ArrayList<>();
     @Id
     private String key;
     /**
@@ -30,6 +30,9 @@ public class Area {
      * Area detail notes typically reserved for GM use
      */
     private String details;
+    /**
+     * Identifier of the {@link Complex} to which this Area is associated
+     */
     private String complexID;
 
     public static AreaDetails toAreaDetails(Area area) {

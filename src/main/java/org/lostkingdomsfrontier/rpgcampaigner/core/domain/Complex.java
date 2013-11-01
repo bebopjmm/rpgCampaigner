@@ -2,7 +2,6 @@ package org.lostkingdomsfrontier.rpgcampaigner.core.domain;
 
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.ComplexDetails;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -29,10 +28,16 @@ public class Complex {
      */
     private String campaignSlug;
 
+    /**
+     * The {@link Area} instances that comprise this Complex
+     */
     @DBRef
     private Set<Area> areas = new HashSet<>();
+    /**
+     * The {@link Transition} instances that connect {@link Area} instance within this Complex
+     */
     @DBRef
-    private Set<Entrance> entrances = new HashSet<>();
+    private Set<Transition> transitions = new HashSet<>();
 
     public static ComplexDetails toComplexDetails(Complex complex) {
         return new ComplexDetails(complex.getName(), complex.getKey());
@@ -66,11 +71,11 @@ public class Complex {
         this.areas = areas;
     }
 
-    public Set<Entrance> getEntrances() {
-        return entrances;
+    public Set<Transition> getTransitions() {
+        return transitions;
     }
 
-    public void setEntrances(Set<Entrance> entrances) {
-        this.entrances = entrances;
+    public void setTransitions(Set<Transition> transitions) {
+        this.transitions = transitions;
     }
 }
