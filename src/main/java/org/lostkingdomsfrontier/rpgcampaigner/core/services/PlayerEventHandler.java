@@ -12,8 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author John McCormick
- * Date: 10/8/13 Time: 18:09
+ * @author John McCormick Date: 10/8/13 Time: 18:09
  */
 public class PlayerEventHandler implements PlayerService {
     private static Logger LOG = LoggerFactory.getLogger(PlayerEventHandler.class);

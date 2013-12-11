@@ -1,8 +1,7 @@
 package org.lostkingdomsfrontier.rpgcampaigner.core.events;
 
 /**
- * @author: John McCormick
- * Date: 10/31/13 Time: 14:32
+ * @author: John McCormick Date: 10/31/13 Time: 14:32
  */
 public class CreateTransitionEvent {
     private final String name;

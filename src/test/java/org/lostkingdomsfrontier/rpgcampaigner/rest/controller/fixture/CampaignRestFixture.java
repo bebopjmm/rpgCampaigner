@@ -2,15 +2,12 @@ package org.lostkingdomsfrontier.rpgcampaigner.rest.controller.fixture;
 
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.CampaignCreatedEvent;
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.CampaignDetails;
-import org.lostkingdomsfrontier.rpgcampaigner.core.events.CreateCampaignEvent;
-import org.lostkingdomsfrontier.rpgcampaigner.core.events.PlayerDetails;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author John McCormick
- * Date: 10/9/13 Time: 15:42
+ * @author John McCormick Date: 10/9/13 Time: 15:42
  */
 public class CampaignRestFixture {
     public static final String STANDARD_CAMPAIGN_SLUG = "rotrl";

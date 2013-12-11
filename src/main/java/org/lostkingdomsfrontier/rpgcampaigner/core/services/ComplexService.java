@@ -5,8 +5,7 @@ import org.lostkingdomsfrontier.rpgcampaigner.core.events.*;
 import java.util.List;
 
 /**
- * @author John McCormick
- * Date: 10/15/13 Time: 10:34
+ * @author John McCormick Date: 10/15/13 Time: 10:34
  */
 public interface ComplexService {
 

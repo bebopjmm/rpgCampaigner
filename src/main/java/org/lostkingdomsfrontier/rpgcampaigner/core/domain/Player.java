@@ -9,11 +9,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Set;
 
 /**
- * The PlayerResource domain class represents an individual that participates in one or more gaming campaigns. Any account
- * management information would be handled in a separate domain object.
+ * The PlayerResource domain class represents an individual that participates in one or more gaming campaigns. Any
+ * account management information would be handled in a separate domain object.
  *
- * @author John McCormick
- * Date: 10/7/13 Time: 15:29
+ * @author John McCormick Date: 10/7/13 Time: 15:29
  */
 @Document
 public class Player {

@@ -6,8 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author: John McCormick
- * Date: 10/31/13 Time: 08:10
+ * @author: John McCormick Date: 10/31/13 Time: 08:10
  */
 public class AreaRestFixture {
 

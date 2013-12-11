@@ -1,6 +1,5 @@
 package org.lostkingdomsfrontier.rpgcampaigner.rest.controller.fixture;
 
-import org.lostkingdomsfrontier.rpgcampaigner.core.events.CampaignDetails;
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.PlayerCreatedEvent;
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.PlayerDetails;
 
@@ -8,8 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author John McCormick
- * Date: 10/4/13 Time: 10:17
+ * @author John McCormick Date: 10/4/13 Time: 10:17
  */
 public class PlayerRestFixture {
 
@@ -25,7 +23,6 @@ public class PlayerRestFixture {
         standardPlayers.add(customPlayerDetails("wilma"));
         standardPlayers.add(customPlayerDetails("betty"));
     }
-
 
 
     public static PlayerDetails customPlayerDetails(String username) {

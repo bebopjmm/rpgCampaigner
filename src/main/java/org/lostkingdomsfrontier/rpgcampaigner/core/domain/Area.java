@@ -9,13 +9,13 @@ import java.util.List;
 
 /**
  * An Area domain object is a bounded space with a designated game purpose. It may be physically enclosed, like a room,
- * or open, like a wooded glade. Areas are connected by Entrances, which may have barriers (e.g, a door).
+ * or open, like a wooded glade. Areas are connected by Transition objects, which may have barriers (e.g, a door).
  *
  * @author John McCormick Date: 10/11/13 Time: 15:17
  */
 @Document
 public class Area {
-    List<Transition> transitions = new ArrayList<>();
+
     @Id
     private String key;
     /**

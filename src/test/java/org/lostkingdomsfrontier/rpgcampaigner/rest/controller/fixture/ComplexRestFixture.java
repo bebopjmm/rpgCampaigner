@@ -7,8 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author John McCormick
- * Date: 10/15/13 Time: 11:52
+ * @author John McCormick Date: 10/15/13 Time: 11:52
  */
 public class ComplexRestFixture {
 
@@ -25,6 +24,7 @@ public class ComplexRestFixture {
     public static ComplexDetails customComplexDetails(String complexKey, String complexName) {
         return new ComplexDetails(complexName, complexKey);
     }
+
     public static ComplexCreatedEvent complexCreated(String complexKey, String complexName) {
         return new ComplexCreatedEvent(customComplexDetails(complexKey, complexName));
     }

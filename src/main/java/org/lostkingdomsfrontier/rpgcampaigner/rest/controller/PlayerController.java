@@ -20,8 +20,7 @@ import java.util.List;
 /**
  * The PlayerController coordinates the interactions between the RESTful commands and the PlayerService.
  *
- * @author John McCormick
- * Date: 10/8/13 Time: 17:37
+ * @author John McCormick Date: 10/8/13 Time: 17:37
  */
 @Controller
 @RequestMapping(PlayerController.BASE_PATH)
@@ -32,7 +31,8 @@ public class PlayerController {
     private PlayerService playerService;
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<PlayerResource> createPlayer(@RequestBody PlayerResource playerResource, UriComponentsBuilder builder) {
+    public ResponseEntity<PlayerResource> createPlayer(@RequestBody PlayerResource playerResource,
+                                                       UriComponentsBuilder builder) {
         LOG.info("createPlayer for " + playerResource.getUserName());
 
         PlayerCreatedEvent playerCreated = playerService.createPlayer(PlayerResource.toPlayerDetails(playerResource));
@@ -63,8 +63,7 @@ public class PlayerController {
         if (details != null) {
             PlayerResource playerResource = PlayerResource.fromPlayerDetails(details);
             return new ResponseEntity<PlayerResource>(playerResource, HttpStatus.OK);
-        }
-        else {
+        } else {
             return new ResponseEntity<PlayerResource>(HttpStatus.NOT_FOUND);
         }
     }

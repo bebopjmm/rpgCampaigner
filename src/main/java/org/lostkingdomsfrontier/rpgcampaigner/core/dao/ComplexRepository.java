@@ -14,6 +14,7 @@ public interface ComplexRepository extends MongoRepository<Complex, String> {
 
     /**
      * This method returns all Complex instances associated with the designated Campaign
+     *
      * @param campaignSlug identifying slug of the Campaign to filter
      * @return list of Complex instances associated with the designated Campaign
      */

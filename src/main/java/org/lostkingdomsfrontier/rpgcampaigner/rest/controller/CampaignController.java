@@ -8,7 +8,6 @@ import org.lostkingdomsfrontier.rpgcampaigner.core.services.CampaignService;
 import org.lostkingdomsfrontier.rpgcampaigner.core.services.PlayerService;
 import org.lostkingdomsfrontier.rpgcampaigner.rest.domain.CampaignResource;
 import org.lostkingdomsfrontier.rpgcampaigner.rest.domain.NewCampaignResource;
-import org.lostkingdomsfrontier.rpgcampaigner.rest.domain.PlayerResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

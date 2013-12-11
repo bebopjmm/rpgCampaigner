@@ -7,8 +7,7 @@ import org.springframework.hateoas.ResourceSupport;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 /**
- * @author: John McCormick
- * Date: 10/31/13 Time: 14:17
+ * @author: John McCormick Date: 10/31/13 Time: 14:17
  */
 public class TransitionResource extends ResourceSupport {
     /**

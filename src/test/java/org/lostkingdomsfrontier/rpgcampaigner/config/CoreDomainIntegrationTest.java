@@ -11,11 +11,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
 
-import static junit.framework.TestCase.*;
+import static junit.framework.TestCase.assertEquals;
 
 /**
- * @author John McCormick
- * Date: 10/24/13 Time: 18:20
+ * @author John McCormick Date: 10/24/13 Time: 18:20
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {ServiceConfig.class, MongoTestConfig.class})

@@ -12,8 +12,7 @@ import java.util.Set;
  * The Complex domain object represents a set of Areas connected by Entrances that can be explored as part of an
  * Adventure.
  *
- * @author John McCormick
- * Date: 10/11/13 Time: 18:21
+ * @author John McCormick Date: 10/11/13 Time: 18:21
  */
 @Document
 public class Complex {

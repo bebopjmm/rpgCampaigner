@@ -1,8 +1,7 @@
 package org.lostkingdomsfrontier.rpgcampaigner.core.events;
 
 /**
- * @author: John McCormick
- * Date: 10/30/13 Time: 18:11
+ * @author: John McCormick Date: 10/30/13 Time: 18:11
  */
 public class CreateAreaEvent {
     private final String areaName;

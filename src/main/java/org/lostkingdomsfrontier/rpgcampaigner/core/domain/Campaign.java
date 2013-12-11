@@ -12,8 +12,7 @@ import java.util.Set;
  * The Campaign domain object represents a connected series of Adventures conducted over a series of GamingSessions by a
  * group of Players under the direction of a gameMaster.
  *
- * @author John McCormick
- * Date: 10/3/13 Time: 10:00
+ * @author John McCormick Date: 10/3/13 Time: 10:00
  */
 @Document
 public class Campaign {

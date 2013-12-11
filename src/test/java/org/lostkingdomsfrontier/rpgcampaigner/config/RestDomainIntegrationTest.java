@@ -12,8 +12,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 /**
- * @author John McCormick
- * Date: 10/24/13 Time: 17:45
+ * @author John McCormick Date: 10/24/13 Time: 17:45
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration

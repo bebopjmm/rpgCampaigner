@@ -1,7 +1,6 @@
 package org.lostkingdomsfrontier.rpgcampaigner.rest.domain;
 
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.AreaDetails;
-import org.lostkingdomsfrontier.rpgcampaigner.rest.controller.CampaignController;
 import org.lostkingdomsfrontier.rpgcampaigner.rest.controller.ComplexController;
 import org.springframework.hateoas.ResourceSupport;
 
@@ -11,8 +10,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
  * An AreaResource domain object is a bounded space with a designated game purpose. It may be physically enclosed, like
  * a room, or open, like a wooded glade. Areas are connected by Entrances, which may have barriers (e.g, a door).
  *
- * @author: John McCormick
- * Date: 10/30/13 Time: 18:20
+ * @author: John McCormick Date: 10/30/13 Time: 18:20
  */
 public class AreaResource extends ResourceSupport {
     /**

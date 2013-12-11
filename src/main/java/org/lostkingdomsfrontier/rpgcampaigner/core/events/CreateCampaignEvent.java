@@ -1,10 +1,7 @@
 package org.lostkingdomsfrontier.rpgcampaigner.core.events;
 
-import org.lostkingdomsfrontier.rpgcampaigner.core.domain.Player;
-
 /**
- * @author John McCormick
- * Date: 10/9/13 Time: 15:21
+ * @author John McCormick Date: 10/9/13 Time: 15:21
  */
 public class CreateCampaignEvent {
     private final String name;

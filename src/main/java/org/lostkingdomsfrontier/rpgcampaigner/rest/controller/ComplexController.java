@@ -193,7 +193,8 @@ public class ComplexController {
     @RequestMapping(method = RequestMethod.GET, value = "/{complexID}/transitions")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public ResourceSupport getTransitionIndexForComplex(@PathVariable String campaignSlug, @PathVariable String complexID) {
+    public ResourceSupport getTransitionIndexForComplex(@PathVariable String campaignSlug,
+                                                        @PathVariable String complexID) {
         ResourceSupport indexResource = new ResourceSupport();
         List<TransitionDetails> transitionList = complexService.getAllTransitionsForComplex(complexID);
         if (transitionList == null) return indexResource;

@@ -22,8 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 /**
- * @author John McCormick
- * Date: 10/8/13 Time: 17:54
+ * @author John McCormick Date: 10/8/13 Time: 17:54
  */
 public class PlayerIntegrationTest {
     MockMvc mockMvc;

@@ -5,8 +5,7 @@ import org.lostkingdomsfrontier.rpgcampaigner.core.events.PlayerDetails;
 /**
  * The PlayerResource domain class represents an individual that participates in one or more gaming campaigns.
  *
- * @author John McCormick
- * Date: 10/8/13 Time: 17:28
+ * @author John McCormick Date: 10/8/13 Time: 17:28
  */
 public class PlayerResource {
     private String userName;
