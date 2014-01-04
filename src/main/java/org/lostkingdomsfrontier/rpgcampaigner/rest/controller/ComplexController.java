@@ -179,7 +179,7 @@ public class ComplexController {
         }
 
         TransitionDetails createdTransition = complexService.addTransitionToComplex(
-                new CreateTransitionEvent(transitionResource.getName(), transitionResource.getDescription()),
+                new CreateBarrierEvent(transitionResource.getName(), transitionResource.getDescription()),
                 complexID);
         LOG.info("transitionCreated: " + createdTransition.getName() + "[" + createdTransition.getKey() + "]");
         TransitionResource newResource = TransitionResource.fromTransitionDetails(createdTransition, campaignSlug);

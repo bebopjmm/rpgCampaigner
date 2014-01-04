@@ -2,10 +2,13 @@ package org.lostkingdomsfrontier.rpgcampaigner.core.domain;
 
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.AreaDetails;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * An Area domain object is a bounded space with a designated game purpose. It may be physically enclosed, like a room,
@@ -35,9 +38,16 @@ public class Area {
      */
     private String complexID;
 
+    private Set<Exit> exits = new HashSet<>();
+
     public static AreaDetails toAreaDetails(Area area) {
-        return new AreaDetails(area.getKey(), area.getName(), area.getDescription(), area.getDetails(),
+        AreaDetails details =  new AreaDetails(area.getKey(), area.getName(), area.getDescription(), area.getDetails(),
                                area.getComplexID());
+        for (Exit exit : area.getExits()) {
+            AreaDetails.ExitDetails exitDetails = details.new ExitDetails(exit.getNextArea().getKey());
+            details.getExitDetails().add(exitDetails);
+        }
+        return details;
     }
 
     public String getKey() {
@@ -75,4 +85,38 @@ public class Area {
     public void setDetails(String details) {
         this.details = details;
     }
+
+    public Set<Exit> getExits() {
+        return exits;
+    }
+
+    public void setExits(Set<Exit> exits) {
+        this.exits = exits;
+    }
+
+    public static class Exit {
+        @DBRef
+        private Area nextArea;
+
+        @DBRef
+        private Barrier barrier;
+
+        public Area getNextArea() {
+            return nextArea;
+        }
+
+        public void setNextArea(Area nextArea) {
+            this.nextArea = nextArea;
+        }
+
+        public Barrier getBarrier() {
+            return barrier;
+        }
+
+        public void setBarrier(Barrier barrier) {
+            this.barrier = barrier;
+        }
+    }
 }
+
+

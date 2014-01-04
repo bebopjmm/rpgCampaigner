@@ -1,9 +1,10 @@
 package org.lostkingdomsfrontier.rpgcampaigner.core.services;
 
 import org.lostkingdomsfrontier.rpgcampaigner.core.dao.AreaRepository;
+import org.lostkingdomsfrontier.rpgcampaigner.core.dao.BarrierRepository;
 import org.lostkingdomsfrontier.rpgcampaigner.core.dao.ComplexRepository;
-import org.lostkingdomsfrontier.rpgcampaigner.core.dao.TransitionRepository;
 import org.lostkingdomsfrontier.rpgcampaigner.core.domain.Area;
+import org.lostkingdomsfrontier.rpgcampaigner.core.domain.Barrier;
 import org.lostkingdomsfrontier.rpgcampaigner.core.domain.Complex;
 import org.lostkingdomsfrontier.rpgcampaigner.core.domain.Transition;
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.*;
@@ -20,13 +21,13 @@ public class ComplexEventHandler implements ComplexService {
     private static Logger LOG = LoggerFactory.getLogger(ComplexEventHandler.class);
     private final ComplexRepository complexRepository;
     private final AreaRepository areaRepository;
-    private final TransitionRepository transitionRepository;
+    private final BarrierRepository barrierRepository;
 
     public ComplexEventHandler(ComplexRepository complexRepository, AreaRepository areaRepository,
-                               TransitionRepository transitionRepository) {
+                               BarrierRepository barrierRepository) {
         this.complexRepository = complexRepository;
         this.areaRepository = areaRepository;
-        this.transitionRepository = transitionRepository;
+        this.barrierRepository = barrierRepository;
     }
 
     @Override
@@ -112,31 +113,80 @@ public class ComplexEventHandler implements ComplexService {
     }
 
     @Override
-    public TransitionDetails addTransitionToComplex(CreateTransitionEvent event, String complexID) {
+    public List<AreaDetails> linkAreasWithExit(LinkAreasEvent event, String complexID) {
+        List<AreaDetails> results = new ArrayList<>(2);
+        Area area1 = areaRepository.findOne(event.getAreaID1());
+        Area area2 = areaRepository.findOne(event.getAreaID2());
+        Barrier barrier;
+        // TODO add support for Barrier lookup
+
+        // Check that our retrieves are sane.
+        if (area1 == null) {
+            LOG.warn("areaID[" + event.getAreaID1() + "] NOT FOUND in repository");
+            return results;
+        }
+        if (!area1.getComplexID().equals(complexID)) {
+            LOG.warn("areaID[" + event.getAreaID1() + "] is NOT part of complex[" + complexID);
+            return results;
+        }
+        if (area2 == null) {
+            LOG.warn("areaID[" + event.getAreaID2() + "] NOT FOUND in repository");
+            return results;
+        }
+        if (!area2.getComplexID().equals(complexID)) {
+            LOG.warn("areaID[" + event.getAreaID2() + "] is NOT part of complex[" + complexID);
+            return results;
+        }
+
+        // Create the Exit elements for the two areas, linking them together
+        Area.Exit exit = new Area.Exit();
+        exit.setNextArea(area2);
+        area1.getExits().add(exit);
+        exit = new Area.Exit();
+        exit.setNextArea(area1);
+        area2.getExits().add(exit);
+
+        // Update our repository
+        area1 = areaRepository.save(area1);
+        area2 = areaRepository.save(area2);
+
+        // Build and return our results
+        results.add(Area.toAreaDetails(area1));
+        results.add(Area.toAreaDetails(area2));
+        return results;
+    }
+
+    @Override
+    public TransitionDetails addBarrierToComplex(CreateBarrierEvent event, String complexID) {
         LOG.info("addTransitionToComplex[" + complexID + "]: " + event.getName());
         Complex complex = complexRepository.findOne(complexID);
         if (complex == null) {
             LOG.warn("complexID[" + complexID + "] NOT FOUND in repository");
             return null;
         }
-        Transition transition = new Transition();
-        transition.setComplexID(complexID);
-        transition.setName(event.getName());
-        transition.setDescription(event.getDescription());
-
-        transition = transitionRepository.save(transition);
-        complex.getTransitions().add(transition);
+        Barrier barrier = new Barrier();
+        barrier.setComplexID(complexID);
+        barrier.setOpen(true);
+//        Transition transition = new Transition();
+//        transition.setComplexID(complexID);
+//        transition.setName(event.getName());
+//        transition.setDescription(event.getDescription());
+//
+//        transition = barrierRepository.save(transition);
+//        complex.getTransitions().add(transition);
+        barrier = barrierRepository.save(barrier);
+        complex.getBarriers().add(barrier);
         complex = complexRepository.save(complex);
         return Transition.toTransitionDetails(transition);
     }
 
     @Override
-    public List<TransitionDetails> getAllTransitionsForComplex(String complexID) {
+    public List<TransitionDetails> getAllBarriersForComplex(String complexID) {
         LOG.info("getAllTransitionsForComplex: " + complexID);
         List<TransitionDetails> results = new ArrayList<>();
         Complex complex = complexRepository.findOne(complexID);
         if (complex != null) {
-            for (Transition transition : complex.getTransitions()) {
+            for (Barrier barrier : complex.getBarriers()) {
                 results.add(Transition.toTransitionDetails(transition));
             }
         } else {

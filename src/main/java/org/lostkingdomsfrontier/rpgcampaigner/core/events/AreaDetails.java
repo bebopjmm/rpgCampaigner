@@ -1,5 +1,8 @@
 package org.lostkingdomsfrontier.rpgcampaigner.core.events;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * @author: John McCormick Date: 10/30/13 Time: 18:16
  */
@@ -20,6 +23,7 @@ public class AreaDetails {
 
     private final String complexID;
 
+    private Set<ExitDetails> exitDetails = new HashSet<>();
 
     public AreaDetails(String key, String name, String description, String details, String complexID) {
         this.key = key;
@@ -45,7 +49,23 @@ public class AreaDetails {
         return details;
     }
 
-    public String getComplexID() {
-        return complexID;
+    public String getComplexID() { return complexID; }
+
+    public Set<ExitDetails> getExitDetails() { return exitDetails; };
+
+    public class ExitDetails {
+        private final String nextAreaID;
+
+        public ExitDetails(String nextAreaID) {
+            this.nextAreaID = nextAreaID;
+        }
+
+        public String getNextAreaID() {
+            return nextAreaID;
+        }
     }
 }
+
+
+
+

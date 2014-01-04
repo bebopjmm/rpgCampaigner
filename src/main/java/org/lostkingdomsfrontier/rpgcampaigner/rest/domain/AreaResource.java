@@ -4,6 +4,9 @@ import org.lostkingdomsfrontier.rpgcampaigner.core.events.AreaDetails;
 import org.lostkingdomsfrontier.rpgcampaigner.rest.controller.ComplexController;
 import org.springframework.hateoas.ResourceSupport;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 /**
@@ -26,15 +29,23 @@ public class AreaResource extends ResourceSupport {
      */
     private String details;
 
+    private Set<ExitResource> exits = new HashSet<>();
+
     public static AreaResource fromAreaDetails(AreaDetails details, String campaignSlug) {
         AreaResource resource = new AreaResource();
         resource.setName(details.getName());
         resource.setDescription(details.getDescription());
         resource.setDetails(details.getDetails());
+        for (AreaDetails.ExitDetails exitDetails : details.getExitDetails()) {
+            resource.getExits().add(ExitResource.fromDetails(exitDetails.getNextAreaID(), campaignSlug));
+        }
 
-        resource.add(linkTo(ComplexController.class, campaignSlug).slash(details.getComplexID()).slash("areas")
-                             .slash(details.getKey()).withSelfRel());
-        resource.add(linkTo(ComplexController.class, campaignSlug).slash(details.getComplexID()).withRel("complex"));
+        resource.add(linkTo(ComplexController.class, campaignSlug)
+                             .slash(details.getComplexID()).slash("areas").slash(details.getKey())
+                             .withSelfRel());
+        resource.add(linkTo(ComplexController.class, campaignSlug)
+                             .slash(details.getComplexID())
+                             .withRel("complex"));
 
         return resource;
     }
@@ -62,4 +73,25 @@ public class AreaResource extends ResourceSupport {
     public void setDetails(String details) {
         this.details = details;
     }
+
+    public Set<ExitResource> getExits() {
+        return exits;
+    }
+
+    public void setExits(Set<ExitResource> exits) {
+        this.exits = exits;
+    }
+
+    public static class ExitResource extends ResourceSupport {
+
+        public static ExitResource fromDetails(String nextAreaID, String campaignSlug) {
+            ExitResource resource = new ExitResource();
+            resource.add(linkTo(ComplexController.class, campaignSlug)
+                                 .slash(campaignSlug).slash("areas").slash(nextAreaID)
+                                 .withRel("nextArea"));
+            return resource;
+        }
+    }
 }
+
+

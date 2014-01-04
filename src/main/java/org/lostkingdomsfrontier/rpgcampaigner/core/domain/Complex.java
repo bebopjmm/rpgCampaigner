@@ -33,10 +33,10 @@ public class Complex {
     @DBRef
     private Set<Area> areas = new HashSet<>();
     /**
-     * The {@link Transition} instances that connect {@link Area} instance within this Complex
+     * The {@link Barrier} instances used in connections between {@link Area} instances within this Complex
      */
     @DBRef
-    private Set<Transition> transitions = new HashSet<>();
+    private Set<Barrier> barriers = new HashSet<>();
 
     public static ComplexDetails toComplexDetails(Complex complex) {
         return new ComplexDetails(complex.getName(), complex.getKey());
@@ -70,11 +70,12 @@ public class Complex {
         this.areas = areas;
     }
 
-    public Set<Transition> getTransitions() {
-        return transitions;
+    public Set<Barrier> getBarriers() {
+        return barriers;
     }
 
-    public void setTransitions(Set<Transition> transitions) {
-        this.transitions = transitions;
+    public void setBarriers(Set<Barrier> barriers) {
+        this.barriers = barriers;
     }
+
 }

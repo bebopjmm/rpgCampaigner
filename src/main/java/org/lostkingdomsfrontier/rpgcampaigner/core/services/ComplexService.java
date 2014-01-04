@@ -21,8 +21,10 @@ public interface ComplexService {
 
     public AreaDetails getAreaFromComplex(String areaID, String complexID);
 
-    public TransitionDetails addTransitionToComplex(CreateTransitionEvent event, String complexID);
+    public List<AreaDetails> linkAreasWithExit(LinkAreasEvent event, String complexID);
 
-    public List<TransitionDetails> getAllTransitionsForComplex(String complexID);
+    public TransitionDetails addBarrierToComplex(CreateBarrierEvent event, String complexID);
+
+    public List<TransitionDetails> getAllBarriersForComplex(String complexID);
 
 }
