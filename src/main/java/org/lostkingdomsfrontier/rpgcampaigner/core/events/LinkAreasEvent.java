@@ -8,12 +8,12 @@ public class LinkAreasEvent {
 
     private final String areaID2;
 
-    private final String barrierID;
+    private CreateBarrierEvent createBarrierEvent;
 
-    public LinkAreasEvent(String areaID1, String areaID2, String barrierID) {
+    public LinkAreasEvent(String areaID1, String areaID2, CreateBarrierEvent createBarrierEvent) {
         this.areaID1 = areaID1;
         this.areaID2 = areaID2;
-        this.barrierID = barrierID;
+        this.createBarrierEvent = createBarrierEvent;
     }
 
     public String getAreaID1() {
@@ -24,7 +24,7 @@ public class LinkAreasEvent {
         return areaID2;
     }
 
-    public String getBarrierID() {
-        return barrierID;
+    public CreateBarrierEvent getCreateBarrierEvent() {
+        return createBarrierEvent;
     }
 }

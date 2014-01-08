@@ -5,46 +5,46 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
- * An Area domain object is a bounded space with a designated game purpose. It may be physically enclosed, like a room,
- * or open, like a wooded glade. Areas are connected by Transition objects, which may have barriers (e.g, a door).
- *
+ * An Area domain object is a bounded space with a designated game purpose. It
+ * may be physically enclosed, like a room, or open, like a wooded glade. Areas
+ * are connected by Exit objects, which may include a Barrier (e.g, a door).
+ * 
  * @author John McCormick Date: 10/11/13 Time: 15:17
  */
 @Document
 public class Area {
 
     @Id
-    private String key;
+    private String    key;
     /**
      * Descriptive title for the area
      */
-    private String name;
+    private String    name;
     /**
      * Area description typically shared with the players
      */
-    private String description;
+    private String    description;
     /**
      * Area detail notes typically reserved for GM use
      */
-    private String details;
+    private String    details;
     /**
      * Identifier of the {@link Complex} to which this Area is associated
      */
-    private String complexID;
+    private String    complexID;
 
     private Set<Exit> exits = new HashSet<>();
 
     public static AreaDetails toAreaDetails(Area area) {
-        AreaDetails details =  new AreaDetails(area.getKey(), area.getName(), area.getDescription(), area.getDetails(),
-                               area.getComplexID());
+        AreaDetails details = new AreaDetails(area.getKey(), area.getName(), area.getDescription(),
+                area.getDetails(), area.getComplexID());
         for (Exit exit : area.getExits()) {
-            AreaDetails.ExitDetails exitDetails = details.new ExitDetails(exit.getNextArea().getKey());
+            AreaDetails.ExitDetails exitDetails = details.new ExitDetails(exit.getNextArea().getKey(),
+                                                                          Barrier.toDetails(exit.getBarrier()));
             details.getExitDetails().add(exitDetails);
         }
         return details;
@@ -96,7 +96,7 @@ public class Area {
 
     public static class Exit {
         @DBRef
-        private Area nextArea;
+        private Area    nextArea;
 
         @DBRef
         private Barrier barrier;
@@ -116,7 +116,6 @@ public class Area {
         public void setBarrier(Barrier barrier) {
             this.barrier = barrier;
         }
+
     }
 }
-
-

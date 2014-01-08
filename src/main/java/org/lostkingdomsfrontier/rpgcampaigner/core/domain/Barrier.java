@@ -1,5 +1,6 @@
 package org.lostkingdomsfrontier.rpgcampaigner.core.domain;
 
+import org.lostkingdomsfrontier.rpgcampaigner.core.events.BarrierDetails;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -9,13 +10,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 public class Barrier {
     @Id
-    private String key;
-    /**
-     * Identifier of the {@link Complex} to which this Transition is associated
-     */
-    private String complexID;
+    private String  key;
 
     private boolean isOpen;
+
+    private String  description;
+
+    public static BarrierDetails toDetails(Barrier barrier) {
+        return new BarrierDetails(barrier.getKey(), barrier.getDescription(), barrier.isOpen());
+    }
 
     public String getKey() {
         return key;
@@ -25,14 +28,6 @@ public class Barrier {
         this.key = key;
     }
 
-    public String getComplexID() {
-        return complexID;
-    }
-
-    public void setComplexID(String complexID) {
-        this.complexID = complexID;
-    }
-
     public boolean isOpen() {
         return isOpen;
     }
@@ -40,4 +35,13 @@ public class Barrier {
     public void setOpen(boolean isOpen) {
         this.isOpen = isOpen;
     }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 }

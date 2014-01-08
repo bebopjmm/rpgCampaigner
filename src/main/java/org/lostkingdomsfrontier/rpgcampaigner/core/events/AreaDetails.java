@@ -55,13 +55,23 @@ public class AreaDetails {
 
     public class ExitDetails {
         private final String nextAreaID;
+        
+        private final BarrierDetails barrier;
 
-        public ExitDetails(String nextAreaID) {
+        public ExitDetails(String nextAreaID, BarrierDetails barrier) {
             this.nextAreaID = nextAreaID;
+            this.barrier = barrier;
         }
 
         public String getNextAreaID() {
             return nextAreaID;
+        }
+
+        /**
+         * @return the barrier
+         */
+        public BarrierDetails getBarrier() {
+            return barrier;
         }
     }
 }

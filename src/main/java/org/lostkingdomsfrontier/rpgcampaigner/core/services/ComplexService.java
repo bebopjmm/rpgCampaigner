@@ -23,8 +23,8 @@ public interface ComplexService {
 
     public List<AreaDetails> linkAreasWithExit(LinkAreasEvent event, String complexID);
 
-    public TransitionDetails addBarrierToComplex(CreateBarrierEvent event, String complexID);
+//    public TransitionDetails addBarrierToComplex(CreateBarrierEvent event, String complexID);
 
-    public List<TransitionDetails> getAllBarriersForComplex(String complexID);
+//    public List<TransitionDetails> getAllBarriersForComplex(String complexID);
 
 }
