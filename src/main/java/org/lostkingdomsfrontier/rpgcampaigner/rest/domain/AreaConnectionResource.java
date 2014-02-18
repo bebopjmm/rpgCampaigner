@@ -3,49 +3,22 @@
  */
 package org.lostkingdomsfrontier.rpgcampaigner.rest.domain;
 
-import org.springframework.hateoas.ResourceSupport;
+import java.io.Serializable;
 
 
 /**
  * @author John McCormick
  *
  */
-public class AreaConnectionResource extends ResourceSupport {
-    private String areaID1;
+public class AreaConnectionResource implements Serializable {
     
-    private String areaID2;
-    
+    private static final long serialVersionUID = 1L;
+
     private String barrierDescription;
     
     private boolean isBarrierOpen;
 
-    /**
-     * @return the areaID1
-     */
-    public String getAreaID1() {
-        return areaID1;
-    }
-
-    /**
-     * @param areaID1 the areaID1 to set
-     */
-    public void setAreaID1(String areaID1) {
-        this.areaID1 = areaID1;
-    }
-
-    /**
-     * @return the areaID2
-     */
-    public String getAreaID2() {
-        return areaID2;
-    }
-
-    /**
-     * @param areaID2 the areaID2 to set
-     */
-    public void setAreaID2(String areaID2) {
-        this.areaID2 = areaID2;
-    }
+    private String nextAreaID;
 
     /**
      * @return the barrierDescription
@@ -73,6 +46,20 @@ public class AreaConnectionResource extends ResourceSupport {
      */
     public void setBarrierOpen(boolean isBarrierOpen) {
         this.isBarrierOpen = isBarrierOpen;
+    }
+
+    /**
+     * @return the nextAreaID
+     */
+    public String getNextAreaID() {
+        return nextAreaID;
+    }
+
+    /**
+     * @param nextAreaID the nextAreaID to set
+     */
+    public void setNextAreaID(String nextAreaID) {
+        this.nextAreaID = nextAreaID;
     }
     
     

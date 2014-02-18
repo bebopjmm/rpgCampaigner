@@ -59,6 +59,7 @@ public class AreaDetails {
         private final BarrierDetails barrier;
 
         public ExitDetails(String nextAreaID, BarrierDetails barrier) {
+            assert (barrier != null);
             this.nextAreaID = nextAreaID;
             this.barrier = barrier;
         }

@@ -91,8 +91,9 @@ public class AreaResource extends ResourceSupport {
     }
 
     public static class ExitResource extends ResourceSupport {
-
-        // TODO Add Barrier Information
+        
+        private String barrierKey;
+        
         private boolean isOpen;
 
         private String  description;
@@ -103,10 +104,25 @@ public class AreaResource extends ResourceSupport {
             ExitResource resource = new ExitResource();
             resource.setDescription(barrierDetails.getDescription());
             resource.setOpen(barrierDetails.isOpen());
+            resource.setBarrierKey(barrierDetails.getKey());
             resource.add(linkTo(ComplexController.class,
                                 campaignSlug).slash(campaignSlug).slash("areas").slash(nextAreaID)
                     .withRel("nextArea"));
             return resource;
+        }
+        
+        /**
+         * @return the barrierKey
+         */
+        public String getBarrierKey() {
+            return barrierKey;
+        }
+
+        /**
+         * @param barrierKey the barrierKey to set
+         */
+        public void setBarrierKey(String barrierKey) {
+            this.barrierKey = barrierKey;
         }
 
         /**

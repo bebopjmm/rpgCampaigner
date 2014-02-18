@@ -171,19 +171,19 @@ public class ComplexController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/{complexID}/areas")
-    public ResourceSupport linkAreasWithinComplex(@RequestBody AreaConnectionResource connection,
-                                                  @PathVariable String campaignSlug,
-                                                  @PathVariable String complexID) {
-        // TODO Figure out the return type that I want
-        ResourceSupport indexResource = new ResourceSupport();
-        CreateBarrierEvent barrierEvent = new CreateBarrierEvent(connection.getBarrierDescription(),
-                                                                 connection.isBarrierOpen());
-        LinkAreasEvent event = new LinkAreasEvent(connection.getAreaID1(),
-                                                  connection.getAreaID2(),
-                                                  barrierEvent);
+    @RequestMapping(method = RequestMethod.POST, value = "/{complexID}/areas/{areaID}/exits", consumes="application/json")
+    public ResponseEntity<List<AreaDetails>> linkAreasWithinComplex(@RequestBody final AreaConnectionResource connection,
+                                                                    @PathVariable String campaignSlug,
+                                                                    @PathVariable String complexID,
+                                                                    @PathVariable String areaID,
+                                                                    UriComponentsBuilder builder) {
+        LOG.info("linkAreasWithinComplex for " + areaID + " within complex [" + complexID + "]");
+        CreateBarrierEvent barrierEvent = new CreateBarrierEvent(
+                connection.getBarrierDescription(), true /*should be connection attribute*/);
+        LinkAreasEvent event = new LinkAreasEvent(areaID, connection.getNextAreaID(), barrierEvent);
         List<AreaDetails> linkedAreas = this.complexService.linkAreasWithExit(event,
                                                                               complexID);
-        return indexResource;
+        return new ResponseEntity<>(linkedAreas, HttpStatus.CREATED);
     }
+
 }

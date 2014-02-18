@@ -37,6 +37,9 @@ public class Area {
      */
     private String    complexID;
 
+    /**
+     * Set of {@link Exit} leading to other Areas
+     */
     private Set<Exit> exits = new HashSet<>();
 
     public static AreaDetails toAreaDetails(Area area) {
