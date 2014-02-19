@@ -114,6 +114,7 @@ public class ComplexEventHandler implements ComplexService {
 
     @Override
     public List<AreaDetails> linkAreasWithExit(LinkAreasEvent event, String complexID) {
+        LOG.info("Linking Areas " + event.getAreaID1() + " and " + event.getAreaID2());
         List<AreaDetails> results = new ArrayList<>(2);
         Area area1 = areaRepository.findOne(event.getAreaID1());
         Area area2 = areaRepository.findOne(event.getAreaID2());
@@ -147,13 +148,15 @@ public class ComplexEventHandler implements ComplexService {
         exit.setNextArea(area2);
         exit.setBarrier(barrier);
         area1.getExits().add(exit);
+        area1 = areaRepository.save(area1);
+
         exit = new Area.Exit();
         exit.setNextArea(area1);
+        if (barrier == null) {
+            LOG.warn("NULL barrier being assigned to area2!");
+        }
         exit.setBarrier(barrier);
         area2.getExits().add(exit);
-
-        // Update our repository
-        area1 = areaRepository.save(area1);
         area2 = areaRepository.save(area2);
 
         // Build and return our results

@@ -179,7 +179,7 @@ public class ComplexController {
                                                                     UriComponentsBuilder builder) {
         LOG.info("linkAreasWithinComplex for " + areaID + " within complex [" + complexID + "]");
         CreateBarrierEvent barrierEvent = new CreateBarrierEvent(
-                connection.getBarrierDescription(), true /*should be connection attribute*/);
+                connection.getBarrierDescription(), connection.isBarrierOpen());
         LinkAreasEvent event = new LinkAreasEvent(areaID, connection.getNextAreaID(), barrierEvent);
         List<AreaDetails> linkedAreas = this.complexService.linkAreasWithExit(event,
                                                                               complexID);

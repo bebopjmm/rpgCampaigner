@@ -151,9 +151,10 @@ public class ComplexIntegrationTest {
                          .content(AreaRestFixture.areaConnectionJSON())
                          .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isCreated());
-//                .andExpect(jsonPath("$.links").isArray())
-//                .andExpect(jsonPath("$.links[0].rel").value(AreaRestFixture.allAreas().get(0)
-//                        .getName()));
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$").isArray());
+        // Note that the current mock of complex service does NOT associate exit info with both areas
+//                .andExpect(jsonPath("$[0].exitDetails[0].barrier").exists())
+//                .andExpect(jsonPath("$[0].exitDetails[1].barrier").exists());
     }
 }
