@@ -15,7 +15,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
  * purpose. It may be physically enclosed, like a room, or open, like a wooded
  * glade. Areas are connected by Exits, which may have barriers (e.g, a door).
  * 
- * @author: John McCormick Date: 10/30/13 Time: 18:20
+ * @author John McCormick Date: 10/30/13 Time: 18:20
  */
 public class AreaResource extends ResourceSupport {
     /**

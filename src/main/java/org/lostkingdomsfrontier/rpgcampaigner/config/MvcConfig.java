@@ -9,6 +9,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
  */
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"org.lostkingdomsfrontier.rpgcampaigner.rest.controller"})
+@ComponentScan(basePackages = {"org.lostkingdomsfrontier.rpgcampaigner.rest"})
 public class MvcConfig {
+
 }

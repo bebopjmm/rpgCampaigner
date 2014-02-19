@@ -1,7 +1,7 @@
 package org.lostkingdomsfrontier.rpgcampaigner.rest.domain;
 
 /**
- * @author: John McCormick Date: 10/9/13 Time: 15:18
+ * @author John McCormick Date: 10/9/13 Time: 15:18
  */
 public class NewCampaignResource {
     private String slug;

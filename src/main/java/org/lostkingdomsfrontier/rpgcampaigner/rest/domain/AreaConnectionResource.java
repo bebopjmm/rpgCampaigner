@@ -34,16 +34,10 @@ public class AreaConnectionResource implements Serializable {
         this.barrierDescription = barrierDescription;
     }
 
-    /**
-     * @return the isBarrierOpen
-     */
     public boolean isBarrierOpen() {
         return isBarrierOpen;
     }
 
-    /**
-     * @param isBarrierOpen the isBarrierOpen to set
-     */
     public void setBarrierOpen(boolean isBarrierOpen) {
         this.isBarrierOpen = isBarrierOpen;
     }
