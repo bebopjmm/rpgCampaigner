@@ -1,11 +1,11 @@
 package org.lostkingdomsfrontier.rpgcampaigner.core.domain;
 
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.PlayerDetails;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -14,15 +14,17 @@ import java.util.Set;
  *
  * @author John McCormick Date: 10/7/13 Time: 15:29
  */
-@Document
+@Entity(name = "PLAYERS")
 public class Player {
 
     @Id
+    @Column(name = "PLAYER_ID")
     private String key;
-    @Indexed(unique = true)
+
+
     private String username;
-    @DBRef
-    private Set<Campaign> campaigns;
+
+//    private Set<Campaign> campaigns;
 
     public static PlayerDetails toPlayerDetails(Player player) {
         return new PlayerDetails(player.getUsername());
@@ -51,10 +53,11 @@ public class Player {
     }
 
     public Set<Campaign> getCampaigns() {
-        return campaigns;
+//        return campaigns;
+        return new HashSet<>();
     }
 
     public void setCampaigns(Set<Campaign> campaigns) {
-        this.campaigns = campaigns;
+//        this.campaigns = campaigns;
     }
 }

@@ -1,10 +1,12 @@
 package org.lostkingdomsfrontier.rpgcampaigner.core.domain;
 
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.ComplexDetails;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,9 +16,10 @@ import java.util.Set;
  *
  * @author John McCormick Date: 10/11/13 Time: 18:21
  */
-@Document
+@Entity(name = "SETTING_COMPLEXES")
 public class Complex {
     @Id
+    @Column(name = "COMPLEX_ID")
     private String key;
     /**
      * Descriptive title
@@ -30,13 +33,13 @@ public class Complex {
     /**
      * The {@link Area} instances that comprise this Complex
      */
-    @DBRef
-    private Set<Area> areas = new HashSet<>();
+//    @DBRef
+//    private Set<Area> areas = new HashSet<>();
     /**
      * The {@link Barrier} instances used in connections between {@link Area} instances within this Complex
      */
-    @DBRef
-    private Set<Barrier> barriers = new HashSet<>();
+//    @DBRef
+//    private Set<Barrier> barriers = new HashSet<>();
 
     public static ComplexDetails toComplexDetails(Complex complex) {
         return new ComplexDetails(complex.getName(), complex.getKey());
@@ -63,19 +66,21 @@ public class Complex {
     }
 
     public Set<Area> getAreas() {
-        return areas;
+//        return areas;
+        return new HashSet<>();
     }
 
     public void setAreas(Set<Area> areas) {
-        this.areas = areas;
+//        this.areas = areas;
     }
 
     public Set<Barrier> getBarriers() {
-        return barriers;
+//        return barriers;
+        return new HashSet<>();
     }
 
     public void setBarriers(Set<Barrier> barriers) {
-        this.barriers = barriers;
+//        this.barriers = barriers;
     }
 
 }

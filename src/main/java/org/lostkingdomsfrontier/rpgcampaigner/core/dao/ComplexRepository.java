@@ -1,7 +1,7 @@
 package org.lostkingdomsfrontier.rpgcampaigner.core.dao;
 
 import org.lostkingdomsfrontier.rpgcampaigner.core.domain.Complex;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author: John McCormick Date: 10/15/13 Time: 10:32
  */
-public interface ComplexRepository extends MongoRepository<Complex, String> {
+public interface ComplexRepository extends CrudRepository<Complex, String> {
 
     /**
      * This method returns all Complex instances associated with the designated Campaign
@@ -19,4 +19,5 @@ public interface ComplexRepository extends MongoRepository<Complex, String> {
      * @return list of Complex instances associated with the designated Campaign
      */
     public List<Complex> findByCampaignSlug(String campaignSlug);
+
 }
