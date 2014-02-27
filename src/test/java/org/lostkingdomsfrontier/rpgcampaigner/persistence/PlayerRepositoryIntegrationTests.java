@@ -45,8 +45,8 @@ public class PlayerRepositoryIntegrationTests {
         Player retrievedPlayer = playerRepository.findByUsername("sharalahur");
         assertNotNull(retrievedPlayer);
         assertEquals(key, retrievedPlayer.getKey());
-        assertNotNull(retrievedPlayer.getCampaigns());
-        assertTrue(retrievedPlayer.getCampaigns().isEmpty());
+        assertNotNull(retrievedPlayer.getCampaignsGMed());
+        assertTrue(retrievedPlayer.getCampaignsGMed().isEmpty());
         assertEquals("sharalahur", retrievedPlayer.getUsername());
     }
 
@@ -68,11 +68,14 @@ public class PlayerRepositoryIntegrationTests {
 
         campaign = campaignRepository.save(campaign);
 
-        player.getCampaigns().add(campaign);
+        player.getCampaignsGMed().add(campaign);
+        campaign.setGameMaster(player);
         player = playerRepository.save(player);
-        assertNotNull(player.getCampaigns());
-        assertFalse(player.getCampaigns().isEmpty());
-        assertTrue(player.getCampaigns().contains(campaign));
+        campaign = campaignRepository.findBySlug("rotrl");
+        assertNotNull(player.getCampaignsGMed());
+        assertFalse(player.getCampaignsGMed().isEmpty());
+        assertTrue(player.getCampaignsGMed().contains(campaign));
+        assertEquals(player, campaign.getGameMaster());
     }
 
 }

@@ -32,6 +32,7 @@ public class CampaignMappingIntegrationTests {
         assertTableHasColumn(manager, "CAMPAIGNS", "CAMPAIGN_ID");
         assertTableHasColumn(manager, "CAMPAIGNS", "NAME");
         assertTableHasColumn(manager, "CAMPAIGNS", "SLUG");
+        assertTableHasColumn(manager, "CAMPAIGNS", "GM_ID");
 
     }
 }

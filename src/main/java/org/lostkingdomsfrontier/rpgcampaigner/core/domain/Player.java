@@ -1,5 +1,7 @@
 package org.lostkingdomsfrontier.rpgcampaigner.core.domain;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.PlayerDetails;
 
 import javax.persistence.*;
@@ -7,7 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * The PlayerResource domain class represents an individual that participates in one or more gaming campaigns. Any
+ * The PlayerResource domain class represents an individual that participates in one or more gaming campaignsGMed. Any
  * account management information would be handled in a separate domain object.
  *
  * @author John McCormick Date: 10/7/13 Time: 15:29
@@ -25,8 +27,9 @@ public class Player {
     @Column(unique = true, nullable = false)
     private String username;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    private Set<Campaign> campaigns = new HashSet<>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "gameMaster")
+    @Cascade({CascadeType.SAVE_UPDATE})
+    private Set<Campaign> campaignsGMed = new HashSet<>();
 
     public static PlayerDetails toPlayerDetails(Player player) {
         return new PlayerDetails(player.getUsername());
@@ -54,11 +57,11 @@ public class Player {
         this.username = username;
     }
 
-    public Set<Campaign> getCampaigns() {
-        return this.campaigns;
+    public Set<Campaign> getCampaignsGMed() {
+        return this.campaignsGMed;
     }
 
-    public void setCampaigns(Set<Campaign> campaigns) {
-        this.campaigns = campaigns;
+    public void setCampaignsGMed(Set<Campaign> campaignsGMed) {
+        this.campaignsGMed = campaignsGMed;
     }
 }

@@ -23,11 +23,12 @@ public class Campaign {
     @Column(unique = true)
     private String slug;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="GM_ID")
     private Player gameMaster;
 
-//    @DBRef
-//    private Set<Player> players;
+    @ManyToMany(cascade = CascadeType.ALL)
+    private Set<Player> players = new HashSet<>();
 
     public static CampaignDetails toCampaignDetails(Campaign campaign) {
         return new CampaignDetails(campaign.getName(), campaign.getSlug());
@@ -66,11 +67,10 @@ public class Campaign {
     }
 
     public Set<Player> getPlayers() {
-//        return players;
-        return new HashSet<>();
+        return players;
     }
 
     public void setPlayers(Set<Player> players) {
-//        this.players = players;
+        this.players = players;
     }
 }
