@@ -2,9 +2,7 @@ package org.lostkingdomsfrontier.rpgcampaigner.core.domain;
 
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.PlayerDetails;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,10 +19,14 @@ public class Player {
     @Column(name = "PLAYER_ID")
     private String key;
 
-
+    /**
+     * The username associated with this player. It must be unique since it will be used as an identifier of convenience
+     */
+    @Column(unique = true, nullable = false)
     private String username;
 
-//    private Set<Campaign> campaigns;
+    @OneToMany(fetch = FetchType.LAZY)
+    private Set<Campaign> campaigns = new HashSet<>();
 
     public static PlayerDetails toPlayerDetails(Player player) {
         return new PlayerDetails(player.getUsername());
@@ -53,11 +55,10 @@ public class Player {
     }
 
     public Set<Campaign> getCampaigns() {
-//        return campaigns;
-        return new HashSet<>();
+        return this.campaigns;
     }
 
     public void setCampaigns(Set<Campaign> campaigns) {
-//        this.campaigns = campaigns;
+        this.campaigns = campaigns;
     }
 }

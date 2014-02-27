@@ -1,11 +1,9 @@
 package org.lostkingdomsfrontier.rpgcampaigner.core.domain;
 
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.CampaignDetails;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -14,17 +12,22 @@ import java.util.Set;
  *
  * @author John McCormick Date: 10/3/13 Time: 10:00
  */
-@Document
+@Entity(name = "CAMPAIGNS")
 public class Campaign {
     @Id
+    @Column(name = "CAMPAIGN_ID")
     private String key;
+
     private String name;
-    @Indexed(unique = true)
+
+    @Column(unique = true)
     private String slug;
-    @DBRef
+
+    @OneToOne(cascade = CascadeType.ALL)
     private Player gameMaster;
-    @DBRef
-    private Set<Player> players;
+
+//    @DBRef
+//    private Set<Player> players;
 
     public static CampaignDetails toCampaignDetails(Campaign campaign) {
         return new CampaignDetails(campaign.getName(), campaign.getSlug());
@@ -32,6 +35,10 @@ public class Campaign {
 
     public String getKey() {
         return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public String getName() {
@@ -59,10 +66,11 @@ public class Campaign {
     }
 
     public Set<Player> getPlayers() {
-        return players;
+//        return players;
+        return new HashSet<>();
     }
 
     public void setPlayers(Set<Player> players) {
-        this.players = players;
+//        this.players = players;
     }
 }
