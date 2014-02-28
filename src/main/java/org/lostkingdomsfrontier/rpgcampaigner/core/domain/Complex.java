@@ -1,12 +1,12 @@
 package org.lostkingdomsfrontier.rpgcampaigner.core.domain;
 
+import org.hibernate.annotations.*;
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.ComplexDetails;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.Column;
+import javax.persistence.*;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,13 +28,17 @@ public class Complex {
     /**
      * Slug identifier of Campaign that this Complex is associated with
      */
-    private String campaignSlug;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="CAMPAIGN_ID")
+    private Campaign campaign;
 
     /**
      * The {@link Area} instances that comprise this Complex
      */
-//    @DBRef
-//    private Set<Area> areas = new HashSet<>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "complex")
+    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    private Set<Area> areas = new HashSet<>();
+
     /**
      * The {@link Barrier} instances used in connections between {@link Area} instances within this Complex
      */
@@ -49,6 +53,10 @@ public class Complex {
         return key;
     }
 
+    public void setKey(String key) {
+        this.key = key;
+    }
+
     public String getName() {
         return name;
     }
@@ -57,21 +65,20 @@ public class Complex {
         this.name = name;
     }
 
-    public String getCampaignSlug() {
-        return campaignSlug;
+    public Campaign getCampaign() {
+        return campaign;
     }
 
-    public void setCampaignSlug(String campaignSlug) {
-        this.campaignSlug = campaignSlug;
+    public void setCampaign(Campaign campaign) {
+        this.campaign = campaign;
     }
 
     public Set<Area> getAreas() {
-//        return areas;
-        return new HashSet<>();
+        return areas;
     }
 
     public void setAreas(Set<Area> areas) {
-//        this.areas = areas;
+        this.areas = areas;
     }
 
     public Set<Barrier> getBarriers() {

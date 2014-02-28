@@ -1,8 +1,11 @@
 package org.lostkingdomsfrontier.rpgcampaigner.core.domain;
 
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.CascadeType;
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.CampaignDetails;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,11 +26,13 @@ public class Campaign {
     @Column(unique = true)
     private String slug;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @Cascade({CascadeType.SAVE_UPDATE})
     @JoinColumn(name="GM_ID")
     private Player gameMaster;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
+    @Cascade({CascadeType.SAVE_UPDATE})
     private Set<Player> players = new HashSet<>();
 
     public static CampaignDetails toCampaignDetails(Campaign campaign) {

@@ -17,7 +17,7 @@ import static junit.framework.TestCase.assertEquals;
  * @author John McCormick Date: 10/24/13 Time: 18:20
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {ServiceConfig.class, MongoTestConfig.class})
+@ContextConfiguration(classes = {ServiceConfig.class, JPATestConfig.class})
 public class CoreDomainIntegrationTest {
 
     @Autowired

@@ -16,7 +16,7 @@ import org.springframework.web.context.WebApplicationContext;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration(classes = {ServiceConfig.class, MongoTestConfig.class, MvcConfig.class})
+@ContextConfiguration(classes = {ServiceConfig.class, JPATestConfig.class, MvcConfig.class})
 public class RestDomainIntegrationTest {
     @Autowired
     WebApplicationContext webApplicationContext;

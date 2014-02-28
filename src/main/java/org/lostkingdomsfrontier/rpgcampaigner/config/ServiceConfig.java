@@ -25,8 +25,9 @@ public class ServiceConfig {
     @Bean
     public ComplexService createComplexService(ComplexRepository complexRepository, 
     										   AreaRepository areaRepository,
-                                               BarrierRepository transitionRepository) {
-        return new ComplexEventHandler(complexRepository, areaRepository, transitionRepository);
+                                               BarrierRepository barrierRepository,
+                                               CampaignRepository campaignRepository) {
+        return new ComplexEventHandler(complexRepository, areaRepository, barrierRepository, campaignRepository);
     }
 
 }

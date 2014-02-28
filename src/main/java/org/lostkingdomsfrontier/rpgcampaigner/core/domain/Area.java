@@ -1,10 +1,10 @@
 package org.lostkingdomsfrontier.rpgcampaigner.core.domain;
 
+import org.hibernate.annotations.*;
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.AreaDetails;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.persistence.*;
+import javax.persistence.Entity;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,10 +15,11 @@ import java.util.Set;
  * 
  * @author John McCormick Date: 10/11/13 Time: 15:17
  */
-@Document
+@Entity(name = "SETTING_AREAS")
 public class Area {
 
     @Id
+    @Column(name = "AREA_ID")
     private String    key;
     /**
      * Descriptive title for the area
@@ -35,16 +36,20 @@ public class Area {
     /**
      * Identifier of the {@link Complex} to which this Area is associated
      */
-    private String    complexID;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    @JoinColumn(name="COMPLEX_ID")
+    private Complex    complex;
 
     /**
      * Set of {@link Exit} leading to other Areas
      */
+    @Transient
     private Set<Exit> exits = new HashSet<>();
 
     public static AreaDetails toAreaDetails(Area area) {
         AreaDetails details = new AreaDetails(area.getKey(), area.getName(), area.getDescription(),
-                area.getDetails(), area.getComplexID());
+                area.getDetails(), area.getComplex().getKey());
         for (Exit exit : area.getExits()) {
             AreaDetails.ExitDetails exitDetails = details.new ExitDetails(exit.getNextArea().getKey(),
                                                                           Barrier.toDetails(exit.getBarrier()));
@@ -57,12 +62,16 @@ public class Area {
         return key;
     }
 
-    public String getComplexID() {
-        return complexID;
+    public void setKey(String key) {
+        this.key = key;
     }
 
-    public void setComplexID(String complexID) {
-        this.complexID = complexID;
+    public Complex getComplex() {
+        return complex;
+    }
+
+    public void setComplex(Complex complex) {
+        this.complex = complex;
     }
 
     public String getName() {
@@ -90,7 +99,7 @@ public class Area {
     }
 
     public Set<Exit> getExits() {
-        return exits;
+        return new HashSet<>();
     }
 
     public void setExits(Set<Exit> exits) {
@@ -98,11 +107,11 @@ public class Area {
     }
 
     public static class Exit {
-        @DBRef
+
         private Area    nextArea;
 
-        @DBRef
-        private Barrier barrier;
+//        @DBRef
+//        private Barrier barrier;
 
         public Area getNextArea() {
             return nextArea;
@@ -113,11 +122,12 @@ public class Area {
         }
 
         public Barrier getBarrier() {
-            return barrier;
+//            return barrier;
+            return null;
         }
 
         public void setBarrier(Barrier barrier) {
-            this.barrier = barrier;
+//            this.barrier = barrier;
         }
 
     }
