@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author John McCormick Date: 10/8/13 Time: 18:09
@@ -27,6 +28,7 @@ public class PlayerEventHandler implements PlayerService {
     public PlayerCreatedEvent createPlayer(PlayerDetails details) {
         LOG.info("createPlayer");
         Player player = Player.fromPlayerDetails(details);
+        player.setKey(UUID.randomUUID().toString());
         player = playerRepository.save(player);
         return new PlayerCreatedEvent(Player.toPlayerDetails(player));
     }

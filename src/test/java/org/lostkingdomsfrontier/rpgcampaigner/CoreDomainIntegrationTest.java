@@ -1,7 +1,9 @@
-package org.lostkingdomsfrontier.rpgcampaigner.config;
+package org.lostkingdomsfrontier.rpgcampaigner;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.lostkingdomsfrontier.rpgcampaigner.config.JPATestConfig;
+import org.lostkingdomsfrontier.rpgcampaigner.config.ServiceConfig;
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.PlayerDetails;
 import org.lostkingdomsfrontier.rpgcampaigner.core.services.PlayerService;
 import org.lostkingdomsfrontier.rpgcampaigner.rest.controller.fixture.PlayerRestFixture;

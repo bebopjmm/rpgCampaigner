@@ -20,6 +20,8 @@ public class AreaConnectionResource implements Serializable {
 
     private String nextAreaID;
 
+    private boolean isBidirectional;
+
     /**
      * @return the barrierDescription
      */
@@ -55,6 +57,12 @@ public class AreaConnectionResource implements Serializable {
     public void setNextAreaID(String nextAreaID) {
         this.nextAreaID = nextAreaID;
     }
-    
-    
+
+    public boolean isBidirectional() {
+        return isBidirectional;
+    }
+
+    public void setBidirectional(boolean isBidirectional) {
+        this.isBidirectional = isBidirectional;
+    }
 }

@@ -35,6 +35,7 @@ public class AreaResource extends ResourceSupport {
 
     /**
      * Set of Exits leading to other Areas.
+     * TODO Refactor to align with AreaPortal design
      */
     private Set<ExitResource> exits = new HashSet<>();
 

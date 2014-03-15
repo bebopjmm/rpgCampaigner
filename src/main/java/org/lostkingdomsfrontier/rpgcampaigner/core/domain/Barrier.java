@@ -1,15 +1,18 @@
 package org.lostkingdomsfrontier.rpgcampaigner.core.domain;
 
 import org.lostkingdomsfrontier.rpgcampaigner.core.events.BarrierDetails;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 /**
  * @author John McCormick Date: 12/14/13 Time: 14:05
  */
-@Document
+@Entity(name = "SETTING_BARRIERS")
 public class Barrier {
     @Id
+    @Column(name = "BARRIER_ID")
     private String  key;
 
     private boolean isOpen;

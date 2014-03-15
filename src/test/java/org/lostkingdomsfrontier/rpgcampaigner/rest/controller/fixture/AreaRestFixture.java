@@ -39,7 +39,7 @@ public class AreaRestFixture {
     }
     
     public static String areaConnectionJSON() {
-        return "{ \"barrierDescription\": \"An open archway leads to the next area\", \"barrierOpen\": true, \"nextAreaID\": \"d4e5f6\" }";
+        return "{ \"barrierDescription\": \"An open archway leads to the next area\", \"barrierOpen\": true, \"nextAreaID\": \"d4e5f6\", \"bidirectional\": true }";
     }
     
     /**

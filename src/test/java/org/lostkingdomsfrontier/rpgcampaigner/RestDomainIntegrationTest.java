@@ -1,8 +1,11 @@
-package org.lostkingdomsfrontier.rpgcampaigner.config;
+package org.lostkingdomsfrontier.rpgcampaigner;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.lostkingdomsfrontier.rpgcampaigner.config.JPATestConfig;
+import org.lostkingdomsfrontier.rpgcampaigner.config.MvcConfig;
+import org.lostkingdomsfrontier.rpgcampaigner.config.ServiceConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
