@@ -5,7 +5,7 @@ out/
 target/
 rpgCampaigner.iws
 rpgCampaigner.ipr
-rpgCampaigner.iml
+*.iml
 .directory
 .settings
 .classpath
