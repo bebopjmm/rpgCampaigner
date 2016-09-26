@@ -1,4 +1,4 @@
-package com.rpgcampaigner.engine;
+package com.rpgcampaigner.common;
 
 /**
  * AdjustableValue manages a single score, such as an ability or hitPoints. It tracks all

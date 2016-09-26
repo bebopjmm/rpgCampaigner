@@ -1,7 +1,7 @@
 package com.rpgcampaigner;
 
 /**
- * @author jmccormick
+ * @author bebopjmm
  * @since 9/21/16
  */
 public class Hello {
