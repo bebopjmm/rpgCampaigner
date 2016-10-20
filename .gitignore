@@ -3,6 +3,7 @@
 .gradle/
 out/
 target/
+classes/
 rpgCampaigner.iws
 rpgCampaigner.ipr
 *.iml

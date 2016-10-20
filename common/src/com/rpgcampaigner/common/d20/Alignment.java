@@ -1,8 +1,8 @@
-package com.rpgcampaigner.pfrpg.entity.domain;
+package com.rpgcampaigner.common.d20;
 
 /**
  * @author jmccormick
- * @since 9/26/16
+ * @since 10/20/16
  */
 public enum Alignment {
 	LG("Lawful Good"),
@@ -17,10 +17,12 @@ public enum Alignment {
 
 	private final String longName;
 
+
 	Alignment(String longName)
 	{
 		this.longName = longName;
 	}
+
 
 	public String longName()
 	{

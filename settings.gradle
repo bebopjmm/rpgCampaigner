@@ -1,2 +1,3 @@
-include 'common'
-include 'pfrpg-entity-service'
+include ':common'
+include ':dnd5e/dnd5e-entity-service'
+include ':pfrpg/pfrpg-entity-service'
