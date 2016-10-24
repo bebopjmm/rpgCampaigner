@@ -12,3 +12,5 @@ rpgCampaigner.ipr
 .classpath
 .project
 /bin
+_site
+.sass-cache
