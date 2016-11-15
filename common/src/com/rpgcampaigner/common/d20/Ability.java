@@ -32,7 +32,7 @@ public enum Ability {
 	 *
 	 * TODO investigate turning this into a lambda function
 	 */
-//	Supplier<Integer> getModifier = (i) -> i/2 -5;
+//	Supplier<Integer> getValue = (i) -> i/2 -5;
 	public static short getModifier(short value)
 	{
 		return (short)(value / 2 - 5);

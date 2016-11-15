@@ -1,18 +1,17 @@
 package com.rpgcampaigner.common;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 /**
  * An DynamicValue manages a single score, such as an ability or hitPoints. It tracks all
- * adjustments, however temporary or permanent, against the base score. It notifies all subscribers
+ * modifiers, however temporary or permanent, against the base score. It notifies all subscribers
  * to changes in the value being managed.
  *
  * @author bebopjmm
  * @since 9/21/16
  */
-public class DynamicValue implements AdjustmentListener {
+public class DynamicValue implements ModifierListener {
 
 	/**
 	 * The baseValue is the raw score without any modifiers.
@@ -29,7 +28,7 @@ public class DynamicValue implements AdjustmentListener {
 	 */
 	private String name = "";
 
-	private Set<Adjustment> adjustments = new HashSet<>();
+	private Set<Modifier> modifiers = new HashSet<>();
 
 	/**
 	 * Instantiates a new DynamicValue, setting both base and current values to the provided
@@ -76,10 +75,10 @@ public class DynamicValue implements AdjustmentListener {
 	}
 
 	/**
-	 * Recalculates the current value (baseValue + all adjustments)
+	 * Recalculates the current value (baseValue + all modifiers)
 	 */
 	void recalc() {
 		this.currentValue = baseValue;
-		this.adjustments.stream().forEach(a -> this.currentValue += a.getModifier());
+		this.modifiers.stream().forEach(a -> this.currentValue += a.getValue());
 	}
 }
