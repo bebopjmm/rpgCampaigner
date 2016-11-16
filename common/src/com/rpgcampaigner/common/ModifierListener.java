@@ -14,5 +14,5 @@ public interface ModifierListener
 	/**
 	 * This method will be invoked when an Modifier changes value.
 	 */
-	void adjust(int delta);
+	void onModifierChange (int delta);
 }

@@ -64,14 +64,30 @@ public class DynamicValue implements ModifierListener {
 		this.name = name;
 	}
 
+	public synchronized void addModifier(Modifier modifier) {
+		if (this.modifiers.contains(modifier)) {
+			return;
+		}
+		this.modifiers.add(modifier);
+		modifier.getSubscribers().add(this);
+		adjust(modifier.getValue());
+	}
+
+	public synchronized void removeModifier(Modifier modifier) {
+		if (!this.modifiers.contains(modifier)) {
+			return;
+		}
+		modifier.getSubscribers().remove(this);
+		this.modifiers.remove(modifier);
+		adjust(-modifier.getValue());
+	}
+
 	@Override
-	public void adjust(int delta) {
+	public void onModifierChange(int delta) {
 		if (delta == 0) {
 			return;
 		}
-
-		this.currentValue += delta;
-		// TODO notify listeners
+		adjust(delta);
 	}
 
 	/**
@@ -80,5 +96,10 @@ public class DynamicValue implements ModifierListener {
 	void recalc() {
 		this.currentValue = baseValue;
 		this.modifiers.stream().forEach(a -> this.currentValue += a.getValue());
+	}
+
+	void adjust(int delta) {
+		this.currentValue += delta;
+		// TODO notify listeners
 	}
 }

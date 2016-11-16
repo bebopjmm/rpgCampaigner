@@ -13,17 +13,17 @@ import java.util.Set;
  */
 public class Modifier {
 
-	private AdjustmentCategory category;
+	private ModifierCategory category;
 
 	private int value;
 
 	Set<ModifierListener> subscribers = new HashSet<>();
 
-	public AdjustmentCategory getCategory() {
+	public ModifierCategory getCategory() {
 		return category;
 	}
 
-	public void setCategory(AdjustmentCategory category) {
+	public void setCategory(ModifierCategory category) {
 		this.category = category;
 	}
 
@@ -32,6 +32,16 @@ public class Modifier {
 	}
 
 	public void setValue(int value) {
+		int oldValue = this.value;
 		this.value = value;
+		notifyOfChange(this.value - oldValue);
+	}
+
+	public Set<ModifierListener> getSubscribers() {
+		return subscribers;
+	}
+
+	void notifyOfChange(int delta) {
+		this.subscribers.stream().forEach(s -> s.onModifierChange(delta));
 	}
 }
