@@ -10,13 +10,13 @@ version = "0.1"
 sourceCompatibility = 1.8
 
 repositories {
-    mavenCentral()
+	mavenCentral()
 }
 
 subprojects {
-    apply plugin: 'java'
+	apply plugin: 'java'
 
-    repositories {
-        mavenCentral()
-    }
+	repositories {
+		mavenCentral()
+	}
 }
