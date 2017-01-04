@@ -1,12 +1,10 @@
 package com.rpgcampaigner.common.d20;
 
-import java.util.function.Supplier;
-
 /**
  * @author jmccormick
  * @since 10/20/16
  */
-public enum Ability {
+public enum AbilityEnum {
 	STR("Strength"),
 	DEX("Dexterity"),
 	CON("Constitution"),
@@ -16,7 +14,7 @@ public enum Ability {
 
 	private final String longName;
 
-	Ability(String longName) {
+	AbilityEnum(String longName) {
 		this.longName = longName;
 	}
 
@@ -25,16 +23,14 @@ public enum Ability {
 	}
 
 	/**
-	 * Returns the ability modifier for the provided value
+	 * Returns the ability abilityModifier for the provided value
 	 *
 	 * @param value
-	 * @return modifier
-	 *
+	 * @return abilityModifier
+	 * <p>
 	 * TODO investigate turning this into a lambda function
 	 */
-//	Supplier<Integer> getValue = (i) -> i/2 -5;
-	public static short getModifier(short value)
-	{
-		return (short)(value / 2 - 5);
+	public static int getModifier(int value) {
+		return value / 2 - 5;
 	}
 }

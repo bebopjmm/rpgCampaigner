@@ -5,7 +5,7 @@ import java.util.Set;
 
 /**
  * An Modifier captures a singular alteration to a modifiable score (DynamicValue), such as an
- * Ability, Skill, or Save. Any change in the value of the Modifier triggers a notification event
+ * AbilityEnum, Skill, or Save. Any change in the value of the Modifier triggers a notification event
  * to all subscribed listeners.
  *
  * @author bebopjmm
@@ -16,6 +16,11 @@ public class Modifier {
 	private ModifierCategory category;
 
 	private int value;
+
+	/**
+	 * convience identifying name for tracing and lookup
+	 */
+	private String name;
 
 	Set<ModifierListener> subscribers = new HashSet<>();
 
@@ -35,6 +40,14 @@ public class Modifier {
 		int oldValue = this.value;
 		this.value = value;
 		notifyOfChange(this.value - oldValue);
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public Set<ModifierListener> getSubscribers() {
