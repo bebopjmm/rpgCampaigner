@@ -5,7 +5,10 @@ import com.rpgcampaigner.common.Modifier;
 import com.rpgcampaigner.common.ModifierCategory;
 
 /**
- * @author jmccormick
+ * The AbilityValue extends the basic DynamicValue in order to provide event-driven notification
+ * to subscribers of changes in the Ability modifier.
+ * 
+ * @author bebopjmm
  * @since 1/4/17
  */
 public class AbilityValue extends DynamicValue {

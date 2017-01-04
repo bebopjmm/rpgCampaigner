@@ -18,9 +18,9 @@ public class Modifier {
 	private int value;
 
 	/**
-	 * convience identifying name for tracing and lookup
+	 * Optional identifying name (useful for debugging and lookup)
 	 */
-	private String name;
+	private String name = "";
 
 	Set<ModifierListener> subscribers = new HashSet<>();
 

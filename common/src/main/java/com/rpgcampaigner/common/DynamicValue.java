@@ -24,7 +24,7 @@ public class DynamicValue implements ModifierListener {
 	private int currentValue;
 
 	/**
-	 * Optional identifying name for the adjustable value (useful for debugging)
+	 * Optional identifying name (useful for debugging and lookup)
 	 */
 	private String name = "";
 

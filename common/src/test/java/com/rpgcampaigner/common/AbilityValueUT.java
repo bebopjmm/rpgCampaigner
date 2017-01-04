@@ -13,7 +13,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 /**
- * @author jmccormick
+ * @author bebopjmm
  * @since 1/4/17
  */
 @RunWith(MockitoJUnitRunner.class)
