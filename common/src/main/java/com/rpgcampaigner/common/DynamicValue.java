@@ -30,6 +30,8 @@ public class DynamicValue implements ModifierListener {
 
 	private Set<Modifier> modifiers = new HashSet<>();
 
+	private Set<DynamicValueListener> listeners = new HashSet<>();
+
 	/**
 	 * Instantiates a new DynamicValue, setting both base and current values to the provided
 	 * baseValue.
@@ -40,7 +42,6 @@ public class DynamicValue implements ModifierListener {
 	{
 		this.baseValue = baseValue;
 		this.currentValue = baseValue;
-//		subscribers = new ArrayList<AdjustableValueListener>();
 	}
 
 	public int getBaseValue() {
@@ -82,6 +83,10 @@ public class DynamicValue implements ModifierListener {
 		adjust(-modifier.getValue());
 	}
 
+	public Set<DynamicValueListener> getListeners() {
+		return this.listeners;
+	}
+
 	@Override
 	public void onModifierChange(int delta) {
 		if (delta == 0) {
@@ -100,6 +105,8 @@ public class DynamicValue implements ModifierListener {
 
 	void adjust(int delta) {
 		this.currentValue += delta;
-		// TODO notify listeners
+		synchronized (this.listeners) {
+			this.listeners.stream().forEach(dvl -> dvl.onValueChange(this.currentValue));
+		}
 	}
 }
